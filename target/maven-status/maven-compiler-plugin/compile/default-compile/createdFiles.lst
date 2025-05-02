@@ -1,0 +1,4 @@
+com\mycompany\locadoraatendimento\App.class
+com\mycompany\locadoraatendimento\PrimaryController.class
+com\mycompany\locadoraatendimento\SecondaryController.class
+module-info.class
