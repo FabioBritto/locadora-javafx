@@ -1,7 +1,8 @@
-module com.mycompany.locadoraatendimento {
+module com.fatec.atendimentolocalhost {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
-    opens com.mycompany.locadoraatendimento to javafx.fxml;
-    exports com.mycompany.locadoraatendimento;
+    opens com.fatec.atendimentolocalhost to javafx.fxml;
+    exports com.fatec.atendimentolocalhost;
 }
