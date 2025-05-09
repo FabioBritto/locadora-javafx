@@ -1,5 +1,9 @@
-package com.mycompany.locadoraatendimento;
+package com.fatec.atendimentolocalhost;
 
+import com.fatec.atendimentolocalhost.database.Database;
+import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
+import com.fatec.atendimentolocalhost.model.entities.Usuario;
+import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,9 +21,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        
+        Database database = new Database();
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
+        
+        
     }
 
     static void setRoot(String fxml) throws IOException {
