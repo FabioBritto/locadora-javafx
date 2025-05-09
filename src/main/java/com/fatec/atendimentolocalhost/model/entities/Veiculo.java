@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
  *
  * @author Fabio
  */
-public class Veiculo {
+public class Veiculo implements Serializable {
     
     private String placa;
     private String marca;
@@ -25,17 +26,6 @@ public class Veiculo {
     
     public Veiculo(){
         
-    }
-
-    public Veiculo(String placa, String marca, String cor, Integer ano, String modelo, Integer quilometragem, BigDecimal precoBase, CategoriaVeiculo categoria) {
-        this.placa = placa;
-        this.marca = marca;
-        this.cor = cor;
-        this.ano = ano;
-        this.modelo = modelo;
-        this.quilometragem = quilometragem;
-        this.precoBase = precoBase;
-        this.categoria = categoria;
     }
 
     public String getPlaca() {

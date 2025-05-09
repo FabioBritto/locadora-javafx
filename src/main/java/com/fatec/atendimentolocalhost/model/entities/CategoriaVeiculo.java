@@ -18,11 +18,6 @@ public class CategoriaVeiculo {
     public CategoriaVeiculo(){
         
     }
-    
-    public CategoriaVeiculo(Integer id, String descricao){
-        this.id = id;
-        this.descricao = descricao;
-    }
 
     public Integer getId() {
         return id;

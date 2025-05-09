@@ -4,11 +4,12 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
- *
  * @author Fabio
  */
 public class Cliente {
@@ -29,23 +30,27 @@ public class Cliente {
     private String telefone;
     private Boolean ativo;
     
+    List<PedidoLocacao> locacoes;
+    
     
     public Cliente(){
-        ativo = true;
     }
 
-    public Cliente(Integer id, String cpf, String nome, String cep, String numero, String complemento, String bairro, String estado, String rua, LocalDate dataNascimento, String telefone) {
-        this.id = id;
-        this.cpf = cpf;
+    public Cliente(String cpf, String nome, String email, 
+            String cep, String numero, String complemento, String bairro, 
+            String estado, String rua, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
+        id = null;
+        setCpf(cpf);
         this.nome = nome;
-        this.cep = cep;
+        setEmail(email);
+        setCep(cep);
         this.numero = numero;
         this.complemento = complemento;
         this.bairro = bairro;
         this.estado = estado;
         this.rua = rua;
-        this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
+        setDataNascimento(dataNascimento);
+        setTelefone(telefone);
         this.ativo = true;
     }
 
@@ -61,7 +66,10 @@ public class Cliente {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(String cpf) throws ClienteValidacaoException {
+        if(cpf.length() != 11){
+            throw new ClienteValidacaoException("O CPF informado é inválido");
+        }
         this.cpf = cpf;
     }
 
@@ -77,7 +85,10 @@ public class Cliente {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws ClienteValidacaoException {
+        if(!email.contains("@") || !email.contains(".com")){
+            throw new ClienteValidacaoException("Email inválido");
+        }
         this.email = email;
     }
 
@@ -85,7 +96,10 @@ public class Cliente {
         return cep;
     }
 
-    public void setCep(String cep) {
+    public void setCep(String cep) throws ClienteValidacaoException {
+        if(cep.length() != 8){
+            throw new ClienteValidacaoException("CEP inválido");
+        }
         this.cep = cep;
     }
 
@@ -141,7 +155,10 @@ public class Cliente {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) throws ClienteValidacaoException {
+        if(LocalDate.now().minusYears(18).isBefore(dataNascimento)){
+            throw new ClienteValidacaoException("O Cliente precisa ser maior de 18 anos");
+        }
         this.dataNascimento = dataNascimento;
     }
 
@@ -149,7 +166,10 @@ public class Cliente {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone) throws ClienteValidacaoException {
+        if(telefone.length() != 16){
+            throw new ClienteValidacaoException("Número de telefone inválido");
+        }
         this.telefone = telefone;
     }
 
@@ -159,6 +179,15 @@ public class Cliente {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+    
+    
+    public List<PedidoLocacao> getLocacoes(){
+        return locacoes;
+    }
+    
+    public void setLocacoes(List<PedidoLocacao> locacoes){
+        this.locacoes = locacoes;
     }
 
     @Override

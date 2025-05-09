@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
 import java.util.Objects;
 
@@ -23,11 +24,11 @@ public class Usuario {
         
     }
     
-    public Usuario(Integer id, String nome, String email, String senha, TipoUsuario tipoUsuario){
-        this.id = id;
+    public Usuario(String nome, String email, String senha, TipoUsuario tipoUsuario) throws LoginValidacaoException {
+        id = null;
         this.nome = nome;
-        this.email = email;
-        this.senha = senha;
+        setEmail(email);
+        setSenha(senha);
         this.tipoUsuario = tipoUsuario;
     }
 
@@ -51,7 +52,10 @@ public class Usuario {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws LoginValidacaoException {
+        if(!email.contains("@") || !email.contains(".com")){
+            throw new LoginValidacaoException("Email inválido");
+        }
         this.email = email;
     }
 
@@ -59,7 +63,10 @@ public class Usuario {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(String senha) throws LoginValidacaoException {
+        if(senha.length() < 8){
+            throw new LoginValidacaoException("A senha deve ter ao menos 8 digitos");
+        }
         this.senha = senha;
     }
 
@@ -67,7 +74,10 @@ public class Usuario {
         return tipoUsuario;
     }
 
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+    public void setTipoUsuario(TipoUsuario tipoUsuario) throws LoginValidacaoException {
+        if(tipoUsuario == null){
+            throw new LoginValidacaoException("É preciso definir um nível de acesso");
+        }
         this.tipoUsuario = tipoUsuario;
     }
 

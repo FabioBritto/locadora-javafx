@@ -4,12 +4,13 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import com.fatec.atendimentolocalhost.exceptions.TipoSeguroValidacaoException;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  *
- * @author Samsung
+ * @author Fabio
  */
 public class TipoSeguro {
     
@@ -21,13 +22,15 @@ public class TipoSeguro {
     public TipoSeguro(){
         
     }
-    
-    public TipoSeguro(Integer id, String nome, String descricao, BigDecimal taxa){
-        this.id = id;
+
+    public TipoSeguro(String nome, String descricao, BigDecimal taxa) throws TipoSeguroValidacaoException {
+        id = null;
         this.nome = nome;
         this.descricao = descricao;
-        this.taxa = taxa;
+        setTaxa(taxa);
     }
+    
+    
 
     public Integer getId() {
         return id;
@@ -57,7 +60,10 @@ public class TipoSeguro {
         return taxa;
     }
 
-    public void setTaxa(BigDecimal taxa) {
+    public void setTaxa(BigDecimal taxa) throws TipoSeguroValidacaoException {
+        if(taxa.doubleValue() <= 0.0){
+            throw new TipoSeguroValidacaoException("Valor de Taxa inválido");
+        }
         this.taxa = taxa;
     }
 

@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import com.fatec.atendimentolocalhost.exceptions.PedidoLocacaoValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.MeioPagamento;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,9 +20,9 @@ public class PedidoLocacao {
     private Integer idSaida;
     private Integer idDevolucao;
     private LocalDate devolucaoEsperada;
-    private MeioPagamento meioPagamento;
     private Boolean finalizado;
     private BigDecimal valorTotal;
+    private MeioPagamento meioPagamento;
     
     private Veiculo veiculo;
     private TipoSeguro tipoSeguro;
@@ -32,7 +33,16 @@ public class PedidoLocacao {
         
     }
     
-    //DEFINIR COMPOSICAO E AGREGACAO
+    public PedidoLocacao(LocalDate devolucaoEsperada,
+                        BigDecimal valorTotal, MeioPagamento meioPagamento) throws PedidoLocacaoValidacaoException {
+        id = null;
+        idSaida = null;
+        idDevolucao = null;
+        setDevolucaoEsperada(devolucaoEsperada);
+        setValorTotal(valorTotal);
+        setMeioPagamento(meioPagamento);
+    }
+    
 
     public Integer getId() {
         return id;
@@ -62,7 +72,10 @@ public class PedidoLocacao {
         return devolucaoEsperada;
     }
 
-    public void setDevolucaoEsperada(LocalDate devolucaoEsperada) {
+    public void setDevolucaoEsperada(LocalDate devolucaoEsperada) throws PedidoLocacaoValidacaoException {
+        if(devolucaoEsperada.isBefore(LocalDate.now().plusDays(1L))){
+            throw new PedidoLocacaoValidacaoException("A data de devolução tem de ser depois de hoje");
+        }
         this.devolucaoEsperada = devolucaoEsperada;
     }
 
@@ -70,7 +83,10 @@ public class PedidoLocacao {
         return meioPagamento;
     }
 
-    public void setMeioPagamento(MeioPagamento meioPagamento) {
+    public void setMeioPagamento(MeioPagamento meioPagamento) throws PedidoLocacaoValidacaoException {
+        if(meioPagamento == null){
+            throw new PedidoLocacaoValidacaoException("Deve ser escolhido um meio de pagamento");
+        }
         this.meioPagamento = meioPagamento;
     }
 
@@ -86,15 +102,23 @@ public class PedidoLocacao {
         return valorTotal;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
+    public void setValorTotal(BigDecimal valorTotal) throws PedidoLocacaoValidacaoException {
+        if(valorTotal.doubleValue() <= 0.0){
+            throw new PedidoLocacaoValidacaoException("O valor de locação não pode ser nulo ou negativo");
+        }
         this.valorTotal = valorTotal;
     }
+    
+    
 
     public Veiculo getVeiculo() {
         return veiculo;
     }
 
-    public void setVeiculo(Veiculo veiculo) {
+    public void setVeiculo(Veiculo veiculo) throws PedidoLocacaoValidacaoException {
+        if(veiculo == null){
+            throw new PedidoLocacaoValidacaoException("O veículo precisa ser definido para a locação");
+        }
         this.veiculo = veiculo;
     }
 
@@ -102,7 +126,10 @@ public class PedidoLocacao {
         return tipoSeguro;
     }
 
-    public void setTipoSeguro(TipoSeguro tipoSeguro) {
+    public void setTipoSeguro(TipoSeguro tipoSeguro) throws PedidoLocacaoValidacaoException {
+        if(tipoSeguro == null){
+            throw new PedidoLocacaoValidacaoException("O Tipo de Seguro precisa ser definido para a locação");
+        }
         this.tipoSeguro = tipoSeguro;
     }
 
@@ -110,7 +137,10 @@ public class PedidoLocacao {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente) throws PedidoLocacaoValidacaoException {
+        if(cliente == null){
+            throw new PedidoLocacaoValidacaoException("O Cliente precisa ser escolhido para a locação");
+        }
         this.cliente = cliente;
     }
 
