@@ -6,9 +6,9 @@ com\fatec\atendimentolocalhost\database\Database.class
 com\fatec\atendimentolocalhost\model\enums\MeioPagamento.class
 com\fatec\atendimentolocalhost\model\entities\CategoriaVeiculo.class
 com\fatec\atendimentolocalhost\model\entities\Usuario.class
+com\fatec\atendimentolocalhost\exceptions\LoginValidacaoException.class
 com\fatec\atendimentolocalhost\PrimaryController.class
 com\fatec\atendimentolocalhost\util\Logger.class
 com\fatec\atendimentolocalhost\model\entities\Veiculo.class
 com\fatec\atendimentolocalhost\model\entities\PedidoLocacao.class
-module-info.class
 com\fatec\atendimentolocalhost\SecondaryController.class
