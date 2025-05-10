@@ -77,10 +77,10 @@ public class UsuarioDAO {
             return Optional.ofNullable(usuario);
         }
         catch(SQLException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+            throw new DBException("Erro ao buscar Usuário: " + e.getMessage());
         }
         catch(LoginValidacaoException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+            throw new DBException("Erro ao buscar Usuário: " + e.getMessage());
         }
     }
     
@@ -136,7 +136,7 @@ public class UsuarioDAO {
             st.close();
         }
         catch(SQLException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+            throw new DBException("Erro ao criar Usuário: " + e.getMessage());
         }
     }
     
@@ -158,7 +158,7 @@ public class UsuarioDAO {
             }
         }
         catch(SQLException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+            throw new DBException("Erro ao atualizar Usuário: " + e.getMessage());
         }
     }
     
@@ -177,7 +177,7 @@ public class UsuarioDAO {
             
         }
         catch(SQLException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+            throw new DBException("Erro ao remover Usuário: " + e.getMessage());
         }
     }
 }
