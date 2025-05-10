@@ -37,13 +37,14 @@ public class Cliente {
     }
 
     public Cliente(String cpf, String nome, String email, 
-            String cep, String numero, String complemento, String bairro, 
+            String cep,String cidade ,String numero, String complemento, String bairro, 
             String estado, String rua, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
         id = null;
         setCpf(cpf);
         this.nome = nome;
         setEmail(email);
         setCep(cep);
+        setCidade(cidade);
         this.numero = numero;
         this.complemento = complemento;
         this.bairro = bairro;
@@ -53,6 +54,7 @@ public class Cliente {
         setTelefone(telefone);
         this.ativo = true;
     }
+    
 
     public Integer getId() {
         return id;
