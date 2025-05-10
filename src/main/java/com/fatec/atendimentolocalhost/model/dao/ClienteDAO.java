@@ -22,10 +22,10 @@ import java.util.Optional;
  * 
  * @author Alberto
  */
-public class ClientesDAO {
-    private Database database;
+public class ClienteDAO {
+    private final Database database;
 
-    public ClientesDAO(Database database) {
+    public ClienteDAO(Database database) {
         this.database = database;
     }
     
@@ -68,7 +68,7 @@ public class ClientesDAO {
             String sql = "SELECT * FROM clientes WHERE cpf=?;";
             PreparedStatement ps = database.getConnection().prepareStatement(sql);
             ps.setString(1, cpf);
-            ResultSet rs = ps.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
             
             Cliente cliente = null;
             if (rs.next()){
@@ -100,8 +100,7 @@ public class ClientesDAO {
         try{
             if (cliente == null) throw new DBException("Não é possível cadastrar um cliente nulo!");
             
-            String sql = "INSERT INTO clientes "
-                       + "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO clientes VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             
             PreparedStatement ps = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, cliente.getCpf());
@@ -118,7 +117,7 @@ public class ClientesDAO {
             ps.setString(12, cliente.getTelefone());
             ps.setBoolean(13, cliente.getAtivo());
 
-            int linhasAfetadas = ps.executeUpdate(sql);
+            int linhasAfetadas = ps.executeUpdate();
             
             if (linhasAfetadas > 0){
                 System.out.println("Linhas afetadas: " + linhasAfetadas);
@@ -187,7 +186,7 @@ public class ClientesDAO {
         try{
             String sql = "DELETE FROM clientes WHERE cpf=?;";
             PreparedStatement ps = database.getConnection().prepareStatement(sql);
-            
+            ps.setString(1, cpf);
             int linhasAfetadas = ps.executeUpdate();
             
             if (linhasAfetadas > 0){
