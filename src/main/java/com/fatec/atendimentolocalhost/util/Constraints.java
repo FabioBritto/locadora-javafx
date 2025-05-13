@@ -7,6 +7,7 @@ package com.fatec.atendimentolocalhost.util;
 import javafx.scene.control.TextField;
 
 /**
+ * Classe destinada a validações relacionadas a objetos TextFields
  *
  * @author Fabio
  */

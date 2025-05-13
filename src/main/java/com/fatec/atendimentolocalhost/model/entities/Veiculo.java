@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- *
+ * Classe 
  * @author Fabio
  */
-public class Veiculo implements Serializable {
+public class Veiculo {
     
     private String placa;
     private String marca;

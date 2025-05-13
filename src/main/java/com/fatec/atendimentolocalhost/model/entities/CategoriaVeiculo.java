@@ -4,9 +4,11 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * Classe de entidade que armazena dados de uma Categoria de Veículo
  *
  * @author Fabio
  */

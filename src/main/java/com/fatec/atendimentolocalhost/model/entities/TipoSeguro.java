@@ -5,10 +5,12 @@
 package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.TipoSeguroValidacaoException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
+ * Classe destinada à armazenar dados de Tipo de Seguro
  *
  * @author Fabio
  */
@@ -23,6 +25,7 @@ public class TipoSeguro {
         
     }
 
+    
     public TipoSeguro(String nome, String descricao, BigDecimal taxa) throws TipoSeguroValidacaoException {
         id = null;
         this.nome = nome;

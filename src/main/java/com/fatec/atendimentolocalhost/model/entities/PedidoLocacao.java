@@ -6,6 +6,7 @@ package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.PedidoLocacaoValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.MeioPagamento;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;

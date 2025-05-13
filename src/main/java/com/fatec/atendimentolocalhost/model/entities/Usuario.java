@@ -6,6 +6,7 @@ package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
