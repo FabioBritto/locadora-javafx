@@ -5,6 +5,7 @@
 package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
+import com.fatec.atendimentolocalhost.model.dto.CepDTO;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class Cliente {
     
     public Cliente(){
     }
-
+    
     public Cliente(String cpf, String nome, String email, 
             String cep,String cidade ,String numero, String complemento, String bairro, 
             String estado, String rua, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
@@ -50,6 +51,24 @@ public class Cliente {
         this.bairro = bairro;
         this.estado = estado;
         this.rua = rua;
+        setDataNascimento(dataNascimento);
+        setTelefone(telefone);
+        this.ativo = true;
+    }
+    
+    public Cliente(String cpf, String nome, String email,CepDTO cepDTO,
+            String numero, String complemento, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
+        id = null;
+        setCpf(cpf);
+        this.nome = nome;
+        setEmail(email);
+        setCep(cepDTO.getCep());
+        setCidade(cepDTO.getCidade());
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = cepDTO.getBairro();
+        this.estado = cepDTO.getEstado();
+        this.rua = cepDTO.getRua();
         setDataNascimento(dataNascimento);
         setTelefone(telefone);
         this.ativo = true;
