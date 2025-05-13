@@ -8,8 +8,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Classe de entidade que armazena dados de uma Categoria de Veículo
- *
+ * Classe de entidade para dados de Categoria de Veículo.
+ * Não existe necessidade de validações para esta classe, uma vez que todos
+ * os dados armazenados dela virão diretamente do Banco de Dados.
+ * 
  * @author Fabio
  */
 public class CategoriaVeiculo {

@@ -7,7 +7,9 @@ package com.fatec.atendimentolocalhost.model.dto;
 import com.google.gson.annotations.SerializedName;
 
 /**
- *
+ * Classe responsável por receber os dados da API de CEP. 
+ * A classe é utilizada em um dos construtores de Cliente.
+ * 
  * @author Fabio
  */
 public class CepDTO {
@@ -22,10 +24,6 @@ public class CepDTO {
     private String cidade;
     @SerializedName("estado")
     private String estado;
-    
-    public CepDTO(){
-        
-    }
 
     public CepDTO(String cep, String rua, String bairro, String cidade, String estado) {
         this.cep = cep;
@@ -39,42 +37,22 @@ public class CepDTO {
         return cep;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
     public String getRua() {
         return rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
     }
 
     public String getBairro() {
         return bairro;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
     public String getCidade() {
         return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
     }
 
     public String getEstado() {
         return estado;
     }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
+    
     @Override
     public String toString() {
         return "CepDTO{" + "cep=" + cep + ", rua=" + rua + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + '}';

@@ -5,6 +5,8 @@
 package com.fatec.atendimentolocalhost.exceptions;
 
 /**
+ * Classe de exceção destinada a todos os problemas relacionados a validações
+ * na sessão de Pedidos de Locações. 
  *
  * @author Fabio
  */

@@ -13,12 +13,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 /**
- *
+ * Classe responsável pelo acesso ao Banco de Dados pela classe de TipoSeguro.
  * @author Fabio
  */
 public class TipoSeguroDAO {
@@ -29,7 +29,7 @@ public class TipoSeguroDAO {
     }
     
     public List<TipoSeguro> findAll() throws DBException {
-        List<TipoSeguro> seguros = new ArrayList<>();
+        List<TipoSeguro> seguros = new LinkedList<>();
         try{
             String sql = "SELECT * FROM tipos_seguro";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
@@ -41,6 +41,7 @@ public class TipoSeguroDAO {
                 tipoSeguro.setNome(rs.getString("nome"));
                 tipoSeguro.setDescricao(rs.getString("descricao"));
                 tipoSeguro.setTaxa(new BigDecimal(rs.getString("taxa")));
+                seguros.add(tipoSeguro);
             }
             rs.close();
             st.close();

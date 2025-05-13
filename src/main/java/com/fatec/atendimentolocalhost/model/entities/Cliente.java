@@ -6,7 +6,6 @@ package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import com.fatec.atendimentolocalhost.model.dto.CepDTO;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;

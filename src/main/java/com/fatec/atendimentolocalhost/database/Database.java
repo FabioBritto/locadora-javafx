@@ -11,7 +11,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- *
+ * Classe responsável pelo acesso ao Banco de Dados.
+ * Para garantir flexibilidade entre todos os desenvolvedores, as credenciais
+ * de acesso ao Banco foram configuradas em variáveis de ambiente
+ * 
  * @author Fabio
  */
 public class Database {

@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *
+ * Classe responsável pelo acesso ao Banco de Dados pela classe de Veículo.
+ * 
  * @author Fabio
  */
 public class VeiculoDAO {

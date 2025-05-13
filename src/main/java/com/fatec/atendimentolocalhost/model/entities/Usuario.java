@@ -6,11 +6,11 @@ package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
+ * Classe de entidade responsável por armazenar os dados de um Usuário.
+ * 
  * @author Fabio
  */
 public class Usuario {
@@ -52,7 +52,12 @@ public class Usuario {
     public String getEmail() {
         return email;
     }
-
+    
+    /**
+     * Validação para inserção do email. Ele deve conter os caracteres especiais.
+     * @param email
+     * @throws LoginValidacaoException 
+     */
     public void setEmail(String email) throws LoginValidacaoException {
         if(!email.contains("@") || !email.contains(".com")){
             throw new LoginValidacaoException("Email inválido");
@@ -64,6 +69,11 @@ public class Usuario {
         return senha;
     }
 
+    /**
+     * Validação para inserção da senha. Ela deve conter ao menos 8 dígitos.
+     * @param senha
+     * @throws LoginValidacaoException 
+     */
     public void setSenha(String senha) throws LoginValidacaoException {
         if(senha.length() < 8){
             throw new LoginValidacaoException("A senha deve ter ao menos 8 digitos");
@@ -75,6 +85,11 @@ public class Usuario {
         return tipoUsuario;
     }
 
+    /**
+     * Validação para inserção do Tipo de Usuário. O valor não pode ser nulo.
+     * @param tipoUsuario
+     * @throws LoginValidacaoException 
+     */
     public void setTipoUsuario(TipoUsuario tipoUsuario) throws LoginValidacaoException {
         if(tipoUsuario == null){
             throw new LoginValidacaoException("É preciso definir um nível de acesso");

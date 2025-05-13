@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *
+ * Classe responsável pelo acesso ao Banco de Dados pela classe de PedidoLocacao.
+ * 
  * @author Fabio
  */
 public class PedidoLocacaoDAO {

@@ -5,7 +5,9 @@
 package com.fatec.atendimentolocalhost.exceptions;
 
 /**
- *
+ * Classe de exceção destinada a todos os problemas relacionados a validações
+ * na criação ou recuperação dos Tipos de Seguro.
+ * 
  * @author Fabio
  */
 public class TipoSeguroValidacaoException extends Exception {

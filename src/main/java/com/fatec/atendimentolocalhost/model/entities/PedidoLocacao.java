@@ -6,13 +6,13 @@ package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.PedidoLocacaoValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.MeioPagamento;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- *
+ * Classe de emtidade para armazenar os dados de um Pedido de Locação.
+ * 
  * @author Fabio
  */
 public class PedidoLocacao {
@@ -73,6 +73,13 @@ public class PedidoLocacao {
         return devolucaoEsperada;
     }
 
+    /**
+     * Validação para data devolução esparada.
+     * A data não pode ser no mesmo dia ou antes da data de locação
+     * 
+     * @param devolucaoEsperada
+     * @throws PedidoLocacaoValidacaoException 
+     */
     public void setDevolucaoEsperada(LocalDate devolucaoEsperada) throws PedidoLocacaoValidacaoException {
         if(devolucaoEsperada.isBefore(LocalDate.now().plusDays(1L))){
             throw new PedidoLocacaoValidacaoException("A data de devolução tem de ser depois de hoje");
@@ -84,6 +91,11 @@ public class PedidoLocacao {
         return meioPagamento;
     }
 
+    /**
+     * Validação para Meio de Pagamento, garantindo que seu valor não seja nulo.
+     * @param meioPagamento
+     * @throws PedidoLocacaoValidacaoException 
+     */
     public void setMeioPagamento(MeioPagamento meioPagamento) throws PedidoLocacaoValidacaoException {
         if(meioPagamento == null){
             throw new PedidoLocacaoValidacaoException("Deve ser escolhido um meio de pagamento");
@@ -103,6 +115,12 @@ public class PedidoLocacao {
         return valorTotal;
     }
 
+    /**
+     * Validação para o Valor Total de um Pedido. O valor deve ser positivo.
+     * 
+     * @param valorTotal
+     * @throws PedidoLocacaoValidacaoException 
+     */
     public void setValorTotal(BigDecimal valorTotal) throws PedidoLocacaoValidacaoException {
         if(valorTotal.doubleValue() <= 0.0){
             throw new PedidoLocacaoValidacaoException("O valor de locação não pode ser nulo ou negativo");
@@ -116,6 +134,12 @@ public class PedidoLocacao {
         return veiculo;
     }
 
+    /**
+     * Validação para o Veículo para garantir que o objeto não será nulo.
+     * 
+     * @param veiculo
+     * @throws PedidoLocacaoValidacaoException 
+     */
     public void setVeiculo(Veiculo veiculo) throws PedidoLocacaoValidacaoException {
         if(veiculo == null){
             throw new PedidoLocacaoValidacaoException("O veículo precisa ser definido para a locação");
@@ -127,6 +151,12 @@ public class PedidoLocacao {
         return tipoSeguro;
     }
 
+    /**
+     * Validação para o Tipo de Seguro para garantir que o objeto não será nulo.
+     * 
+     * @param tipoSeguro
+     * @throws PedidoLocacaoValidacaoException 
+     */
     public void setTipoSeguro(TipoSeguro tipoSeguro) throws PedidoLocacaoValidacaoException {
         if(tipoSeguro == null){
             throw new PedidoLocacaoValidacaoException("O Tipo de Seguro precisa ser definido para a locação");
@@ -138,6 +168,12 @@ public class PedidoLocacao {
         return cliente;
     }
 
+    /**
+     * Validação para o Cliente para garantir que o objeto não será nulo.
+     * 
+     * @param cliente
+     * @throws PedidoLocacaoValidacaoException 
+     */
     public void setCliente(Cliente cliente) throws PedidoLocacaoValidacaoException {
         if(cliente == null){
             throw new PedidoLocacaoValidacaoException("O Cliente precisa ser escolhido para a locação");

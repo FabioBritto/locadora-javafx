@@ -7,7 +7,9 @@ package com.fatec.atendimentolocalhost.exceptions;
 import java.sql.SQLException;
 
 /**
- *
+ * Classe de exceção destinada a todos os problemas relacionados a validações
+ * na camada de acesso a dados (Classes DAO).
+ * 
  * @author Fabio
  */
 public class DBException extends Exception {

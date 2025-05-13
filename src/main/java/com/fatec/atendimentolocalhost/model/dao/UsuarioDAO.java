@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class UsuarioDAO {
     }
     
     public List<Usuario> findAll() throws DBException {
-        List<Usuario> usuarios = new ArrayList<>();
+        List<Usuario> usuarios = new LinkedList<>();
         try{
             String sql = "SELECT * FROM usuarios";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
@@ -43,9 +43,39 @@ public class UsuarioDAO {
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
+                usuarios.add(usuario);
             }
             rs.close();
             st.close();
+        }
+        catch(SQLException e){
+            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+        }
+        catch(LoginValidacaoException e){
+            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
+        }
+        return usuarios;
+    }
+    
+    public List<Usuario> findByNome(String nome) throws DBException {
+        List<Usuario> usuarios = new LinkedList<>();
+        try{
+            String sql = "SELECT * FROM usuarios WHERE nome = ?";
+            PreparedStatement st = database.getConnection().prepareStatement(sql);
+            st.setString(1, nome);
+            ResultSet rs = st.executeQuery();
+            
+            while(rs.next()){
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id_usuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
+                usuarios.add(usuario);
+            }
+            st.close();
+            rs.close();
         }
         catch(SQLException e){
             throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
@@ -82,36 +112,6 @@ public class UsuarioDAO {
         catch(LoginValidacaoException e){
             throw new DBException("Erro ao buscar Usuário: " + e.getMessage());
         }
-    }
-    
-    public List<Usuario> findByNome(String nome) throws DBException {
-        List<Usuario> usuarios = new ArrayList<>();
-        try{
-            String sql = "SELECT * FROM usuarios WHERE nome = ?";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setString(1, nome);
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Usuario usuario = null;
-                usuario = new Usuario();
-                usuario.setId(rs.getInt("id_usuario"));
-                usuario.setNome(rs.getString("nome"));
-                usuario.setEmail(rs.getString("email"));
-                usuario.setSenha(rs.getString("senha"));
-                usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
-                usuarios.add(usuario);
-            }
-            st.close();
-            rs.close();
-        }
-        catch(SQLException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
-        }
-        catch(LoginValidacaoException e){
-            throw new DBException("Erro ao buscar Usuários: " + e.getMessage());
-        }
-        return usuarios;
     }
     
     public void create(Usuario usuario) throws DBException {
@@ -174,7 +174,6 @@ public class UsuarioDAO {
             if(linhasAfetadas > 0){
                 System.out.println("Linhas Afetadas: " + linhasAfetadas);
             }
-            
         }
         catch(SQLException e){
             throw new DBException("Erro ao remover Usuário: " + e.getMessage());
