@@ -5,10 +5,12 @@
 package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.TipoSeguroValidacaoException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
+ * Classe destinada à armazenar dados de Tipo de Seguro
  *
  * @author Fabio
  */
@@ -23,6 +25,7 @@ public class TipoSeguro {
         
     }
 
+    
     public TipoSeguro(String nome, String descricao, BigDecimal taxa) throws TipoSeguroValidacaoException {
         id = null;
         this.nome = nome;
@@ -30,8 +33,6 @@ public class TipoSeguro {
         setTaxa(taxa);
     }
     
-    
-
     public Integer getId() {
         return id;
     }
@@ -60,6 +61,12 @@ public class TipoSeguro {
         return taxa;
     }
 
+    /**
+     * Validação para a Taxa do Seguro. O valor deve ser positivo.
+     * 
+     * @param taxa
+     * @throws TipoSeguroValidacaoException 
+     */
     public void setTaxa(BigDecimal taxa) throws TipoSeguroValidacaoException {
         if(taxa.doubleValue() <= 0.0){
             throw new TipoSeguroValidacaoException("Valor de Taxa inválido");

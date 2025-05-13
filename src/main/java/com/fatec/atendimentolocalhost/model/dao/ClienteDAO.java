@@ -97,7 +97,7 @@ public class ClienteDAO {
             return Optional.ofNullable(cliente);
         } 
         catch (SQLException | ClienteValidacaoException e) {
-            throw new DBException("Erro ao encontrar o cliente pelo cpf: " + e.getMessage());    
+            throw new DBException("Erro ao encontrar o cliente pelo CPF: " + e.getMessage());    
         }
         
     }
@@ -210,11 +210,9 @@ public class ClienteDAO {
             if (linhasAfetadas > 0){
                 System.out.println("Linahs afetadas: " + linhasAfetadas);
             }
-            
-            
         } 
         catch (SQLException e) {
-            throw new DBException("Erro ao autalizar cliente: " + e.getMessage());            
+            throw new DBException("Erro ao autalizar dados do Cliente: " + e.getMessage());            
         }
         
     }
@@ -229,11 +227,9 @@ public class ClienteDAO {
             if (linhasAfetadas > 0){
                 System.out.println("Linhas afetadas: " + linhasAfetadas);
             }
-            
         }
         catch(SQLException e){
             throw new DBException("Não foi possível deletar o cliente: " + e.getMessage());
         }
-    }
-    
+    }  
 }

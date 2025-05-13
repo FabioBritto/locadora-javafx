@@ -4,15 +4,17 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- *
+ * Classe de entidade para dados de Veículo.
+ * Não existe necessidade de validações para esta classe, uma vez que todos
+ * os dados armazenados dela virão diretamente do Banco de Dados.
+ * 
  * @author Fabio
  */
-public class Veiculo implements Serializable {
+public class Veiculo {
     
     private String placa;
     private String marca;

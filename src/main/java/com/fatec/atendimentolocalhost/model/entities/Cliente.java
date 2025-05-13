@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Classe de entidade para armazenar dados de um Cliente. Contém também
+ * ainda uma lista de todas as locações realizadas.
+ * 
  * @author Fabio
  */
 public class Cliente {
@@ -37,6 +40,25 @@ public class Cliente {
     public Cliente(){
     }
     
+    /**
+     * Construtor usado para criação de Usuário quando a API de CEP não estiver disponível.
+     * Neste caso, os dados de endereço serão configurados manualmente.
+     * Os atributos que demandam validação, são inseridos via métodos Set
+     * 
+     * @param cpf
+     * @param nome
+     * @param email
+     * @param cep
+     * @param cidade
+     * @param numero
+     * @param complemento
+     * @param bairro
+     * @param estado
+     * @param rua
+     * @param dataNascimento
+     * @param telefone
+     * @throws ClienteValidacaoException 
+     */
     public Cliente(String cpf, String nome, String email, 
             String cep,String cidade ,String numero, String complemento, String bairro, 
             String estado, String rua, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
@@ -56,6 +78,20 @@ public class Cliente {
         this.ativo = true;
     }
     
+    /**
+     * Construtor utilizado para criaçã de Usuário com o uso da API de CEP.
+     * É passado como parte dos parâmetros, um CepDTO.
+     * 
+     * @param cpf
+     * @param nome
+     * @param email
+     * @param cepDTO
+     * @param numero
+     * @param complemento
+     * @param dataNascimento
+     * @param telefone
+     * @throws ClienteValidacaoException 
+     */
     public Cliente(String cpf, String nome, String email,CepDTO cepDTO,
             String numero, String complemento, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
         id = null;
@@ -87,6 +123,12 @@ public class Cliente {
         return cpf;
     }
 
+    /**
+     * Validação para inserção de CPF verificando o número de caracteres
+     * 
+     * @param cpf
+     * @throws ClienteValidacaoException 
+     */
     public void setCpf(String cpf) throws ClienteValidacaoException {
         if(cpf.length() != 11){
             throw new ClienteValidacaoException("O CPF informado é inválido");
@@ -105,7 +147,13 @@ public class Cliente {
     public String getEmail() {
         return email;
     }
-
+    
+    /**
+     * Validação para inserção de Email verificando a existência de caracteres especiais
+     * 
+     * @param email
+     * @throws ClienteValidacaoException 
+     */
     public void setEmail(String email) throws ClienteValidacaoException {
         if(!email.contains("@") || !email.contains(".com")){
             throw new ClienteValidacaoException("Email inválido");
@@ -117,6 +165,12 @@ public class Cliente {
         return cep;
     }
 
+    /**
+     * Validação de inserção de CEP verificando o número de caracteres
+     * 
+     * @param cep
+     * @throws ClienteValidacaoException 
+     */
     public void setCep(String cep) throws ClienteValidacaoException {
         if(cep.length() != 8){
             throw new ClienteValidacaoException("CEP inválido");
@@ -176,6 +230,13 @@ public class Cliente {
         return dataNascimento;
     }
 
+    /**
+     * Validação de inserção de Data Nascimento, garantindo
+     * que o Cliente seja maior de 18 anos
+     * 
+     * @param dataNascimento
+     * @throws ClienteValidacaoException 
+     */
     public void setDataNascimento(LocalDate dataNascimento) throws ClienteValidacaoException {
         if(LocalDate.now().minusYears(18).isBefore(dataNascimento)){
             throw new ClienteValidacaoException("O Cliente precisa ser maior de 18 anos");
@@ -187,6 +248,12 @@ public class Cliente {
         return telefone;
     }
 
+    /**
+     * Validação de inserção de telefone verificando o número de caracteres
+     * 
+     * @param telefone
+     * @throws ClienteValidacaoException 
+     */
     public void setTelefone(String telefone) throws ClienteValidacaoException {
         if(telefone.length() != 16){
             throw new ClienteValidacaoException("Número de telefone inválido");

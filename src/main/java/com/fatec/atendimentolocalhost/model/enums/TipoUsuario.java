@@ -5,7 +5,10 @@
 package com.fatec.atendimentolocalhost.model.enums;
 
 /**
- *
+ * Enum para escolha do Tipo de Usuário na hora da criação de um novo usuário do sistema.
+ * Ele contém métodos para recuperar o índice ou para escolher uma das opções
+ * a partir de um inteiro fornecido. Este método facilita a integração com o Banco de Dados.
+ * 
  * @author Fabio
  */
 public enum TipoUsuario {

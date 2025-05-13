@@ -16,7 +16,10 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
 /**
- *
+ * Classe destinada à conexão com a API de CEP disponível em:
+ *              https://viacep.com.br
+ * O objetivo é capturar os dados da API e guardar em um objeto DTO
+ * Possui duas constantes que identificam o endereço da API e o tipo de dado que quero de retorno
  * @author Fabio
  */
 public class CepApi {
@@ -24,6 +27,15 @@ public class CepApi {
     private static final String URL = "https://viacep.com.br/ws/";
     private static final String TIPO = "/json";
     
+    /**
+     * Objeto que recupera o endereço a partir do CEP fornecido com o uso da biblioteca
+     * GSON
+     * 
+     * @param cep
+     * @return CepDTO
+     * @throws IOException
+     * @throws InterruptedException 
+     */
     public CepDTO encontrarEndereco(String cep) throws IOException, InterruptedException {
         
         String endereco = URL + cep + TIPO;

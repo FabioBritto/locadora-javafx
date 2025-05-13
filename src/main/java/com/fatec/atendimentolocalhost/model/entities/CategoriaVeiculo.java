@@ -4,10 +4,14 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
+ * Classe de entidade para dados de Categoria de Veículo.
+ * Não existe necessidade de validações para esta classe, uma vez que todos
+ * os dados armazenados dela virão diretamente do Banco de Dados.
+ * 
  * @author Fabio
  */
 public class CategoriaVeiculo {

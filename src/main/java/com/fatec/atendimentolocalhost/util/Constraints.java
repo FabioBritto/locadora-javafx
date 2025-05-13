@@ -7,6 +7,8 @@ package com.fatec.atendimentolocalhost.util;
 import javafx.scene.control.TextField;
 
 /**
+ * Classe destinada a validações relacionadas a objetos TextFields
+ * com a utilização de Expressões Regulares (regex).
  *
  * @author Fabio
  */

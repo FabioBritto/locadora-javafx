@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *
+ * Classe responsável pelo acesso ao Banco de Dados pela classe de CategoriaVeiculo.
+ * 
  * @author Fabio
  */
 public class CategoriaVeiculoDAO {
