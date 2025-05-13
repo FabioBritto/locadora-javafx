@@ -96,13 +96,44 @@ public class ClienteDAO {
         
     }
     
+    public Optional<Cliente> findById(Integer id) throws DBException {
+        try{
+            String sql = "SELECT FROM clientes WHERE id = ?";
+            PreparedStatement st = database.getConnection().prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            
+            Cliente cliente = null;
+            if(rs.next()){
+                cliente.setId(rs.getInt("id_cliente"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setCep(rs.getString("cep"));
+                cliente.setRua(rs.getString("rua"));
+                cliente.setNumero(rs.getString("numero"));
+                cliente.setComplemento(rs.getString("complemento"));
+                cliente.setBairro(rs.getString("bairro"));
+                cliente.setCidade(rs.getString("cidade"));
+                cliente.setEstado(rs.getString("estado"));
+                cliente.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
+                cliente.setTelefone(rs.getString("telefone"));
+                cliente.setAtivo(rs.getBoolean("ativo"));
+            }
+            rs.close();
+            st.close();
+            return Optional.ofNullable(cliente);
+        }
+        catch (SQLException | ClienteValidacaoException e) {
+            throw new DBException("Erro ao encontrar o cliente pelo ID: " + e.getMessage());    
+        }
+    }
+    
     public void createCliente(Cliente cliente) throws DBException{
         try{
-            if (cliente == null) throw new DBException("Não é possível cadastrar um cliente nulo!");
-            
             String sql = "INSERT INTO clientes VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            
             PreparedStatement ps = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
             ps.setString(1, cliente.getCpf());
             ps.setString(2, cliente.getNome());
             ps.setString(3, cliente.getEmail());
