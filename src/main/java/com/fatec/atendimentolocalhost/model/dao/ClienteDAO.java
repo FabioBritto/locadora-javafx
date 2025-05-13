@@ -9,6 +9,7 @@ import com.fatec.atendimentolocalhost.database.Database;
 import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.Cliente;
+import com.fatec.atendimentolocalhost.model.entities.PedidoLocacao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,6 +39,8 @@ public class ClienteDAO {
             
             ResultSet rs = ps.executeQuery();
             
+            PedidoLocacaoDAO pedidoDAO = new PedidoLocacaoDAO(database);
+            
             while (rs.next()){
                 Cliente cliente = new Cliente();                
                 cliente.setId(rs.getInt("id_cliente"));
@@ -53,7 +56,10 @@ public class ClienteDAO {
                 cliente.setEstado(rs.getString("estado"));
                 cliente.setDataNascimento(rs.getDate("dataNascimento").toLocalDate());
                 cliente.setTelefone(rs.getString("telefone"));
-                cliente.setAtivo(rs.getBoolean("ativo"));                
+                cliente.setAtivo(rs.getBoolean("ativo"));
+                
+                List<PedidoLocacao> pedidos = pedidoDAO.findByCliente(cliente);
+                cliente.setLocacoes(pedidos);
                 clientes.add(cliente);
             }
         }
