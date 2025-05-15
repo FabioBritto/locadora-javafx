@@ -137,7 +137,9 @@ public class ClienteDAO {
     
     public void createCliente(Cliente cliente) throws DBException{
         try{
-            String sql = "INSERT INTO clientes VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO clientes (cpf, nome, email, cep, rua, numero,"
+                    + "complemento, bairro, cidade, estado, dataNascimento,"
+                    + "telefone, ativo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement ps = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             ps.setString(1, cliente.getCpf());

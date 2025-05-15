@@ -78,7 +78,7 @@ public class TipoSeguroDAO {
     
     public void create(TipoSeguro tipoSeguro) throws DBException {
         try{
-            String sql = "INSERT INTO tipos_seguro VALUES (null,?,?,?)";
+            String sql = "INSERT INTO tipos_seguro (nome, descricao, taxa) VALUES (?,?,?)";
             PreparedStatement st = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             st.setString(1, tipoSeguro.getNome());

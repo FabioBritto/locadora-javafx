@@ -12,6 +12,7 @@ com\fatec\atendimentolocalhost\model\entities\PedidoLocacao.class
 com\fatec\atendimentolocalhost\model\dao\ClienteDAO.class
 com\fatec\atendimentolocalhost\model\dao\PedidoLocacaoDAO.class
 com\fatec\atendimentolocalhost\model\dao\UsuarioDAO.class
+com\fatec\atendimentolocalhost\util\Constraints.class
 com\fatec\atendimentolocalhost\SecondaryController.class
 com\fatec\atendimentolocalhost\model\entities\TipoSeguro.class
 com\fatec\atendimentolocalhost\model\enums\TipoUsuario.class

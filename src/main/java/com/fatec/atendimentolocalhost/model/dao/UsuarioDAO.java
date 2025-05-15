@@ -116,7 +116,7 @@ public class UsuarioDAO {
     
     public void create(Usuario usuario) throws DBException {
         try{
-            String sql = "INSERT INTO usuarios VALUES (null,?,?,?,?)";
+            String sql = "INSERT INTO usuarios (nome, email, senha, tipo_usuario) VALUES (?,?,?,?)";
             PreparedStatement st = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             st.setString(1, usuario.getNome());
