@@ -4,11 +4,12 @@
  */
 package com.fatec.atendimentolocalhost.database;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Properties;
 
 /**
  * Classe responsável pelo acesso ao Banco de Dados.
@@ -35,8 +36,29 @@ public class Database {
         }
     }
     
+    public Database(Boolean teste) {
+        
+        Properties props = new Properties();
+        try(InputStream input = getClass().getClassLoader().getResourceAsStream("application-teste.properties")) {
+            if(input == null){
+                throw new IOException("Arquivo application-teste.properties não encontrado em resources");
+            }
+            
+            props.load(input);
+            
+            String url = props.getProperty("jdbc.url");
+            String username = props.getProperty("jdbc.username");
+            String password = props.getProperty("jdbc.password");
+            
+            conn = DriverManager.getConnection(url,username,password);
+        }
+        catch(IOException | SQLException e){
+            throw new RuntimeException("Erro ao conectar ao banco H2: " + e.getMessage());
+        }
+    }
+            
+        
     public Connection getConnection(){
         return conn;
     }
-    
 }
