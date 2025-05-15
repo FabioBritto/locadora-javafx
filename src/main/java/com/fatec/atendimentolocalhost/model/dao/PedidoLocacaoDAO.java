@@ -285,7 +285,9 @@ public class PedidoLocacaoDAO {
     
     public void create(PedidoLocacao pedido) throws DBException {
         try{
-            String sql = "INSERT INTO pedidos_locacao VALUES(null,? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO pedidos_locacao (id_atendente, id_cliente, id_seguro,"
+                    + "placa, id_saida, id_devolucao, devolucao_esperada, forma_de_pagamento,"
+                    + "finalizado, valor_total) VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, pedido.getAtendente().getId());
             st.setInt(2, pedido.getCliente().getId());
