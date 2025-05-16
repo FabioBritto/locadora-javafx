@@ -54,7 +54,7 @@ public class TipoSeguroDAO {
     
     public Optional<TipoSeguro> findById(Integer id) throws DBException {
         try{
-            String sql = "SELECT FROM tipos_seguro WHERE id_seguro = ?";
+            String sql = "SELECT * FROM tipos_seguro WHERE id_seguro = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
