@@ -88,7 +88,7 @@ public class UsuarioDAO {
     
     public Optional<Usuario> findById(Integer id) throws DBException {
         try{
-            String sql = "SELECT FROM usuarios WHERE id_usuario = ?";
+            String sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -142,14 +142,14 @@ public class UsuarioDAO {
     
     public void update(Usuario usuario) throws DBException {
         try{
-            String sql = "UPDATE usuarios SET id_usuario = ?, nome = ?, email = ?, senha = ?, tipo_usuario = ?";
+            String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ?, tipo_usuario = ? WHERE id_usuario = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             
-            st.setInt(1, usuario.getId());
-            st.setString(2, usuario.getNome());
-            st.setString(3, usuario.getEmail());
-            st.setString(4, usuario.getSenha());
-            st.setInt(5, usuario.getTipoUsuario().getNumero());
+            st.setString(1, usuario.getNome());
+            st.setString(2, usuario.getEmail());
+            st.setString(3, usuario.getSenha());
+            st.setInt(4, usuario.getTipoUsuario().getNumero());
+            st.setInt(5, usuario.getId());
             
             int linhasAfetadas = st.executeUpdate();
             
@@ -162,7 +162,7 @@ public class UsuarioDAO {
         }
     }
     
-    public void removeById(Integer id) throws DBException {
+    public void deleteById(Integer id) throws DBException {
         try{
             String sql = "DELETE FROM usuarios WHERE id_usuario = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);

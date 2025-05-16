@@ -81,7 +81,7 @@ public class PedidoLocacaoDAO {
     public List<PedidoLocacao> findByCliente(Cliente cliente) throws DBException {
         List<PedidoLocacao> pedidos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM pedidos_locacao WHERE id_cliente = ?";
+            String sql = "SELECT * FROM pedidos_locacao WHERE id_cliente = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, cliente.getId());
             ResultSet rs = st.executeQuery();
@@ -121,7 +121,7 @@ public class PedidoLocacaoDAO {
     public List<PedidoLocacao> findByVeiculo(Veiculo veiculo) throws DBException {
         List<PedidoLocacao> pedidos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM pedidos_locacao WHERE placa = ?";
+            String sql = "SELECT * FROM pedidos_locacao WHERE placa = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setString(1, veiculo.getPlaca());
             ResultSet rs = st.executeQuery();
@@ -161,7 +161,7 @@ public class PedidoLocacaoDAO {
     public List<PedidoLocacao> findByDevolucaoEsperada(LocalDate data) throws DBException {
         List<PedidoLocacao> pedidos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM pedidos_locacao WHERE devolucao_esperada = ?";
+            String sql = "SELECT * FROM pedidos_locacao WHERE devolucao_esperada = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setDate(1, Date.valueOf(data));
             ResultSet rs = st.executeQuery();
@@ -203,7 +203,7 @@ public class PedidoLocacaoDAO {
     public List<PedidoLocacao> findByFinalizado(Boolean finalizado) throws DBException {
         List<PedidoLocacao> pedidos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM pedidos_locacao WHERE finalizado = ?";
+            String sql = "SELECT * FROM pedidos_locacao WHERE finalizado = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setBoolean(1, finalizado);
             ResultSet rs = st.executeQuery();
@@ -244,7 +244,7 @@ public class PedidoLocacaoDAO {
     
     public Optional<PedidoLocacao> findById(Integer id) throws DBException {
         try{
-            String sql = "SELECT FROM pedidos_locacao WHERE id_pedido = ?";
+            String sql = "SELECT * FROM pedidos_locacao WHERE id_pedido = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -319,7 +319,6 @@ public class PedidoLocacaoDAO {
     public void update(PedidoLocacao pedido) throws DBException {
         try{
             String sql = "UPDATE pedidos_locacao SET "
-                       + "id_pedido = ?, "
                        + "id_atendente = ?, "
                        + "id_cliente = ?, "
                        + "id_seguro = ?, "
@@ -329,19 +328,19 @@ public class PedidoLocacaoDAO {
                        + "devolucao_esperada = ?, "
                        + "forma_de_pagamento = ?, "
                        + "finalizado = ?, "
-                       + "valor_total = ?";
+                       + "valor_total = ? WHERE id_pedido = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setInt(1, pedido.getId());
-            st.setInt(2, pedido.getAtendente().getId());
-            st.setInt(3, pedido.getCliente().getId());
-            st.setInt(4, pedido.getTipoSeguro().getId());
-            st.setString(5, pedido.getVeiculo().getPlaca());
-            st.setInt(6, pedido.getIdSaida());
-            st.setInt(7, pedido.getIdDevolucao());
-            st.setDate(8, Date.valueOf(pedido.getDevolucaoEsperada()));
-            st.setInt(9, pedido.getMeioPagamento().getNumero());
-            st.setBoolean(10, pedido.getFinalizado());
-            st.setDouble(11, pedido.getValorTotal().doubleValue());
+            st.setInt(1, pedido.getAtendente().getId());
+            st.setInt(2, pedido.getCliente().getId());
+            st.setInt(3, pedido.getTipoSeguro().getId());
+            st.setString(4, pedido.getVeiculo().getPlaca());
+            st.setInt(5, pedido.getIdSaida());
+            st.setInt(6, pedido.getIdDevolucao());
+            st.setDate(7, Date.valueOf(pedido.getDevolucaoEsperada()));
+            st.setInt(8, pedido.getMeioPagamento().getNumero());
+            st.setBoolean(9, pedido.getFinalizado());
+            st.setDouble(10, pedido.getValorTotal().doubleValue());
+            st.setInt(11, pedido.getId());
             
             int linhasAfetadas = st.executeUpdate();
             
@@ -356,7 +355,7 @@ public class PedidoLocacaoDAO {
     
     public void removeById(Integer id) throws DBException {
         try{
-            String sql = "DELETE FROM pedidos_locacao WHERE id = ?";
+            String sql = "DELETE FROM pedidos_locacao WHERE id_pedido = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             

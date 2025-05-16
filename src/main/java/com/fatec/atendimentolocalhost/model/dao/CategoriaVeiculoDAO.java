@@ -51,13 +51,14 @@ public class CategoriaVeiculoDAO {
     
     public Optional<CategoriaVeiculo> findById(Integer id) throws DBException {
         try{
-            String sql = "SELECT FROM categorias_veiculos WHERE id_categoria = ?";
+            String sql = "SELECT * FROM categorias_veiculos WHERE id_categoria = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             
             CategoriaVeiculo categoria = null;
             if(rs.next()){
+                categoria = new CategoriaVeiculo();
                 categoria.setId(rs.getInt("id_categoria"));
                 categoria.setDescricao(rs.getString("descricao"));
             }

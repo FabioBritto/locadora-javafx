@@ -62,7 +62,7 @@ public class VeiculoDAO {
     public List<Veiculo> findByMarca(String marca) throws DBException {
         List<Veiculo> veiculos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM veiculos WHERE marca = ?";
+            String sql = "SELECT * FROM veiculos WHERE marca = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setString(1, marca);
             ResultSet rs = st.executeQuery();
@@ -93,7 +93,7 @@ public class VeiculoDAO {
     public List<Veiculo> findByModelo(String modelo) throws DBException {
         List<Veiculo> veiculos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM veiculos WHERE marca = ?";
+            String sql = "SELECT * FROM veiculos WHERE marca = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setString(1, modelo);
             ResultSet rs = st.executeQuery();
@@ -124,7 +124,7 @@ public class VeiculoDAO {
     public List<Veiculo> findByCategoria(CategoriaVeiculo categoria) throws DBException {
         List<Veiculo> veiculos = new LinkedList<>();
         try{
-            String sql = "SELECT FROM veiculos WHERE id_categoria = ?";
+            String sql = "SELECT * FROM veiculos WHERE id_categoria = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, categoria.getId());
             ResultSet rs = st.executeQuery();
@@ -155,7 +155,7 @@ public class VeiculoDAO {
     
     public Optional<Veiculo> findByPlaca(String placa) throws DBException {
         try{
-            String sql = "SELECT FROM veiculos WHERE placa = ?";
+            String sql = "SELECT * FROM veiculos WHERE placa = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setString(1, placa);
             ResultSet rs = st.executeQuery();
