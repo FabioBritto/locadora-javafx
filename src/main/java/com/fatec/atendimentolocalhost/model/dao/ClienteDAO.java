@@ -104,13 +104,14 @@ public class ClienteDAO {
     
     public Optional<Cliente> findById(Integer id) throws DBException {
         try{
-            String sql = "SELECT FROM clientes WHERE id = ?";
+            String sql = "SELECT * FROM clientes WHERE id = ?";
             PreparedStatement st = database.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             
             Cliente cliente = null;
             if(rs.next()){
+                cliente = new Cliente();
                 cliente.setId(rs.getInt("id_cliente"));
                 cliente.setCpf(rs.getString("cpf"));
                 cliente.setNome(rs.getString("nome"));
@@ -210,11 +211,11 @@ public class ClienteDAO {
             int linhasAfetadas = ps.executeUpdate();
             
             if (linhasAfetadas > 0){
-                System.out.println("Linahs afetadas: " + linhasAfetadas);
+                System.out.println("Linhas afetadas: " + linhasAfetadas);
             }
         } 
         catch (SQLException e) {
-            throw new DBException("Erro ao autalizar dados do Cliente: " + e.getMessage());            
+            throw new DBException("Erro ao atualizar dados do Cliente: " + e.getMessage());            
         }
         
     }
