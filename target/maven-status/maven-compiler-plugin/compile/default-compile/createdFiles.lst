@@ -1,6 +1,7 @@
 com\fatec\atendimentolocalhost\exceptions\PedidoLocacaoValidacaoException.class
 com\fatec\atendimentolocalhost\model\dao\CategoriaVeiculoDAO.class
 com\fatec\atendimentolocalhost\exceptions\TipoSeguroValidacaoException.class
+com\fatec\atendimentolocalhost\HomeController.class
 com\fatec\atendimentolocalhost\model\entities\Cliente.class
 com\fatec\atendimentolocalhost\model\entities\CategoriaVeiculo.class
 com\fatec\atendimentolocalhost\exceptions\LoginValidacaoException.class

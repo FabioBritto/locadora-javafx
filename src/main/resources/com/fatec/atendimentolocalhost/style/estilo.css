@@ -1,0 +1,25 @@
+
+.menu{
+    -fx-background-color: #eaeaea;
+    -fx-border-style: solid;
+    -fx-border-width: 2px;
+    -fx-border-color: transparent #4682B475 transparent transparent;
+  
+}
+
+.button-menu{
+    -fx-background-color: transparent;
+    -fx-padding: 0 10 -15 0;
+   
+    /*-fx-border-color: #007bff;
+    -fx-margin-botom: 20px;
+    -fx-text-align: right;
+    */
+    
+}
+
+.button-menu:hover{
+    -fx-border-width: 0 0 1 0;
+    
+    -fx-border-color: transparent transparent #ff6a00 transparent;
+}
