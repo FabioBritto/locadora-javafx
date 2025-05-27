@@ -102,6 +102,27 @@ public class TipoSeguroDAO {
         }
     }
     
+    public void createWithId(TipoSeguro tipoSeguro) throws DBException{
+        try{
+            String sql = "INSERT INTO tipos_seguro (id_seguro, nome, descricao, taxa) "
+                       + "VALUES (?,?,?,?)";
+            PreparedStatement st = database.getConnection().prepareStatement(sql);
+            
+            st.setInt(1, tipoSeguro.getId());
+            st.setString(2, tipoSeguro.getNome());
+            st.setString(3, tipoSeguro.getDescricao());
+            st.setDouble(4, tipoSeguro.getTaxa().doubleValue());
+            
+            
+            st.executeUpdate();
+            
+            st.close();
+        }
+        catch(SQLException e){
+            throw new DBException("Erro ao criar Tipo de Seguro cim ID: " + e.getMessage());
+        }        
+    }
+    
     public void update(TipoSeguro tipoSeguro) throws DBException {
         try{
             String sql = "UPDATE tipos_seguro SET id_seguro = ?, nome = ?, descricao = ?, taxa = ?";
@@ -141,4 +162,23 @@ public class TipoSeguroDAO {
             throw new DBException("Erro ao remover Tipo de Seguro: " + e.getMessage());
         }
     }
+    
+    public void removeAll() throws DBException {
+        try{
+            String sql = "DELETE FROM tipos_seguro";
+            PreparedStatement st = database.getConnection().prepareStatement(sql);
+            
+            int linhasAfetadas = st.executeUpdate();
+            
+            if(linhasAfetadas > 0){
+                System.out.println("Linhas Afetadas: " + linhasAfetadas);
+            }
+            
+        }
+        catch(SQLException e){
+            throw new DBException("Erro ao remover todos os Tipos de Seguro: " + e.getMessage());
+        }
+    }
+    
+    
 }
