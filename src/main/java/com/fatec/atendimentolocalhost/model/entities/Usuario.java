@@ -20,6 +20,7 @@ public class Usuario {
     private String email;
     private String senha;
     private TipoUsuario tipoUsuario;
+    private Boolean ativo;
     
     public Usuario(){
         
@@ -31,6 +32,7 @@ public class Usuario {
         setEmail(email);
         setSenha(senha);
         this.tipoUsuario = tipoUsuario;
+        ativo = true;
     }
 
     public Integer getId() {
@@ -95,6 +97,14 @@ public class Usuario {
             throw new LoginValidacaoException("É preciso definir um nível de acesso");
         }
         this.tipoUsuario = tipoUsuario;
+    }
+    
+    public Boolean getAtivo(){
+        return ativo;
+    }
+    
+    public void setAtivo(Boolean ativo){
+        this.ativo = ativo;
     }
 
     @Override

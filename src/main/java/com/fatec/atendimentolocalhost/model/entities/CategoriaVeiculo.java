@@ -63,6 +63,6 @@ public class CategoriaVeiculo {
 
     @Override
     public String toString() {
-        return "CategoriaVeiculo{" + "id=" + id + ", descricao=" + descricao + '}';
+        return descricao;
     }        
 }
