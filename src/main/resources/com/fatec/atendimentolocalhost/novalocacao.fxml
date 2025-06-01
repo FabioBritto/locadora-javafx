@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <children>
+            <TextField fx:id="txtDataDevolucao" promptText="Data de Devolução" />
+            <DatePicker fx:id="datePickerDevolucao" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <children>
+            <TextField fx:id="txtPesquisaModelo" promptText="Pesquisar por nome..." />
+            <RadioButton fx:id="rbFabricante" mnemonicParsing="false" text="Fabricante" />
+            <RadioButton fx:id="rbPrecoBase" mnemonicParsing="false" text="Preço Base" />
+            <RadioButton fx:id="rbCategoria" mnemonicParsing="false" text="Categoria" />
+            <ComboBox fx:id="cmbCategoria" prefWidth="150.0" promptText="Categoria" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <TableView fx:id="tabelaVeiculos" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="568.0" prefWidth="567.0" VBox.vgrow="ALWAYS">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Placa" />
+          <TableColumn prefWidth="75.0" text="Marca" />
+            <TableColumn prefWidth="75.0" text="Modelo" />
+            <TableColumn prefWidth="75.0" text="Cor" />
+            <TableColumn prefWidth="75.0" text="Ano" />
+            <TableColumn prefWidth="75.0" text="Km" />
+            <TableColumn prefWidth="75.0" text="Preço Base" />
+        </columns>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </TableView>
+      <ButtonBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <buttons>
+          <Button fx:id="btnVoltar" mnemonicParsing="false" text="Voltar" />
+            <Button fx:id="btnAvancar" mnemonicParsing="false" text="Avançar" />
+        </buttons>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </ButtonBar>
+   </children>
+</VBox>
