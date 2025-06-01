@@ -15,59 +15,51 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Classe responsável pelo acesso ao Banco de Dados pela classe de CategoriaVeiculo.
- * 
+ * Classe responsável pelo acesso ao Banco de Dados pela classe de
+ * CategoriaVeiculo.
+ *
  * @author Fabio
  */
 public class CategoriaVeiculoDAO {
-    
+
     private final Database database;
-    
-    public CategoriaVeiculoDAO(Database database){
+
+    public CategoriaVeiculoDAO(Database database) {
         this.database = database;
     }
-    
-    public List<CategoriaVeiculo> findAll() throws DBException {
+
+    public List<CategoriaVeiculo> findAll() throws SQLException {
         List<CategoriaVeiculo> categorias = new LinkedList<>();
-        try {
-            String sql = "SELECT * FROM categorias_veiculos";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                CategoriaVeiculo categoria = new CategoriaVeiculo();
-                categoria.setId(rs.getInt("id_categoria"));
-                categoria.setDescricao(rs.getString("descricao"));
-                categorias.add(categoria);
-            }
-            rs.close();
-            st.close();
+        String sql = "SELECT * FROM categorias_veiculos";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            CategoriaVeiculo categoria = new CategoriaVeiculo();
+            categoria.setId(rs.getInt("id_categoria"));
+            categoria.setDescricao(rs.getString("descricao"));
+            categorias.add(categoria);
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar as Categorias de Veículos: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
         return categorias;
     }
-    
-    public Optional<CategoriaVeiculo> findById(Integer id) throws DBException {
-        try{
-            String sql = "SELECT * FROM categorias_veiculos WHERE id_categoria = ?";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            
-            CategoriaVeiculo categoria = null;
-            if(rs.next()){
-                categoria = new CategoriaVeiculo();
-                categoria.setId(rs.getInt("id_categoria"));
-                categoria.setDescricao(rs.getString("descricao"));
-            }
-            rs.close();
-            st.close();
-            return Optional.ofNullable(categoria);
+
+    public Optional<CategoriaVeiculo> findById(Integer id) throws SQLException {
+        String sql = "SELECT * FROM categorias_veiculos WHERE id_categoria = ?";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
+
+        CategoriaVeiculo categoria = null;
+        if (rs.next()) {
+            categoria = new CategoriaVeiculo();
+            categoria.setId(rs.getInt("id_categoria"));
+            categoria.setDescricao(rs.getString("descricao"));
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar a Categoria de Veículo: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
+        return Optional.ofNullable(categoria);
+
     }
 }

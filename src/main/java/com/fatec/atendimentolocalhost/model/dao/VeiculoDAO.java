@@ -18,169 +18,145 @@ import java.util.Optional;
 
 /**
  * Classe responsável pelo acesso ao Banco de Dados pela classe de Veículo.
- * 
+ *
  * @author Fabio
  */
 public class VeiculoDAO {
-    
+
     private final Database database;
-    
-    public VeiculoDAO(Database database){
+
+    public VeiculoDAO(Database database) {
         this.database = database;
     }
-    
-    public List<Veiculo> findAll() throws DBException {
+
+    public List<Veiculo> findAll() throws SQLException {
         List<Veiculo> veiculos = new LinkedList<>();
-        try{
-            String sql = "SELECT * FROM veiculos";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Veiculo veiculo = new Veiculo();
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setCor(rs.getString("cor"));
-                veiculo.setAno(rs.getInt("ano"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setQuilometragem(rs.getInt("quilometragem"));
-                veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
-                CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
-                Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
-                veiculo.setCategoria(categoria.get());
-                veiculos.add(veiculo);
-            }
-            rs.close();
-            st.close();
+        String sql = "SELECT * FROM veiculos";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            Veiculo veiculo = new Veiculo();
+            veiculo.setPlaca(rs.getString("placa"));
+            veiculo.setMarca(rs.getString("marca"));
+            veiculo.setCor(rs.getString("cor"));
+            veiculo.setAno(rs.getInt("ano"));
+            veiculo.setModelo(rs.getString("modelo"));
+            veiculo.setQuilometragem(rs.getInt("quilometragem"));
+            veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
+            Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
+            veiculo.setCategoria(categoria.get());
+            veiculos.add(veiculo);
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar os Veículos: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
+
         return veiculos;
     }
-    
-    public List<Veiculo> findByMarca(String marca) throws DBException {
+
+    public List<Veiculo> findByMarca(String marca) throws SQLException {
         List<Veiculo> veiculos = new LinkedList<>();
-        try{
-            String sql = "SELECT * FROM veiculos WHERE marca = ?";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setString(1, marca);
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Veiculo veiculo = new Veiculo();
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setCor(rs.getString("cor"));
-                veiculo.setAno(rs.getInt("ano"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setQuilometragem(rs.getInt("quilometragem"));
-                veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
-                CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
-                Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
-                veiculo.setCategoria(categoria.get());
-                veiculos.add(veiculo);
-            }
-            rs.close();
-            st.close();
+        String sql = "SELECT * FROM veiculos WHERE marca = ?";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        st.setString(1, marca);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            Veiculo veiculo = new Veiculo();
+            veiculo.setPlaca(rs.getString("placa"));
+            veiculo.setMarca(rs.getString("marca"));
+            veiculo.setCor(rs.getString("cor"));
+            veiculo.setAno(rs.getInt("ano"));
+            veiculo.setModelo(rs.getString("modelo"));
+            veiculo.setQuilometragem(rs.getInt("quilometragem"));
+            veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
+            Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
+            veiculo.setCategoria(categoria.get());
+            veiculos.add(veiculo);
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar os Veículos: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
         return veiculos;
     }
-    
-    public List<Veiculo> findByModelo(String modelo) throws DBException {
+
+    public List<Veiculo> findByModelo(String modelo) throws SQLException {
         List<Veiculo> veiculos = new LinkedList<>();
-        try{
-            String sql = "SELECT * FROM veiculos WHERE marca = ?";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setString(1, modelo);
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Veiculo veiculo = new Veiculo();
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setCor(rs.getString("cor"));
-                veiculo.setAno(rs.getInt("ano"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setQuilometragem(rs.getInt("quilometragem"));
-                veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
-                CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
-                Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
-                veiculo.setCategoria(categoria.get());
-                veiculos.add(veiculo);
-            }
-            rs.close();
-            st.close();
+        String sql = "SELECT * FROM veiculos WHERE marca = ?";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        st.setString(1, modelo);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            Veiculo veiculo = new Veiculo();
+            veiculo.setPlaca(rs.getString("placa"));
+            veiculo.setMarca(rs.getString("marca"));
+            veiculo.setCor(rs.getString("cor"));
+            veiculo.setAno(rs.getInt("ano"));
+            veiculo.setModelo(rs.getString("modelo"));
+            veiculo.setQuilometragem(rs.getInt("quilometragem"));
+            veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
+            Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
+            veiculo.setCategoria(categoria.get());
+            veiculos.add(veiculo);
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar os Veículos: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
         return veiculos;
     }
-    
-    public List<Veiculo> findByCategoria(CategoriaVeiculo categoria) throws DBException {
+
+    public List<Veiculo> findByCategoria(CategoriaVeiculo categoria) throws SQLException {
         List<Veiculo> veiculos = new LinkedList<>();
-        try{
-            String sql = "SELECT * FROM veiculos WHERE id_categoria = ?";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setInt(1, categoria.getId());
-            ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
-                Veiculo veiculo = new Veiculo();
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setCor(rs.getString("cor"));
-                veiculo.setAno(rs.getInt("ano"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setQuilometragem(rs.getInt("quilometragem"));
-                veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
-                /*
+        String sql = "SELECT * FROM veiculos WHERE id_categoria = ?";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        st.setInt(1, categoria.getId());
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next()) {
+            Veiculo veiculo = new Veiculo();
+            veiculo.setPlaca(rs.getString("placa"));
+            veiculo.setMarca(rs.getString("marca"));
+            veiculo.setCor(rs.getString("cor"));
+            veiculo.setAno(rs.getInt("ano"));
+            veiculo.setModelo(rs.getString("modelo"));
+            veiculo.setQuilometragem(rs.getInt("quilometragem"));
+            veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            /*
                 Neste caso, eu aproveito o objeto categoria para economizar consultas ao banco
-                */
-                veiculo.setCategoria(categoria);
-                veiculos.add(veiculo);
-            }
-            rs.close();
-            st.close();
+             */
+            veiculo.setCategoria(categoria);
+            veiculos.add(veiculo);
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar os Veículos: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
         return veiculos;
     }
-    
-    public Optional<Veiculo> findByPlaca(String placa) throws DBException {
-        try{
-            String sql = "SELECT * FROM veiculos WHERE placa = ?";
-            PreparedStatement st = database.getConnection().prepareStatement(sql);
-            st.setString(1, placa);
-            ResultSet rs = st.executeQuery();
-            
-            Veiculo veiculo = null;
-            if(rs.next()){
-                veiculo = new Veiculo();
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setCor(rs.getString("cor"));
-                veiculo.setAno(rs.getInt("ano"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setQuilometragem(rs.getInt("quilometragem"));
-                veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
-                CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
-                Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
-                veiculo.setCategoria(categoria.get());
-            }
-            rs.close();
-            st.close();
-            return Optional.ofNullable(veiculo);
+
+    public Optional<Veiculo> findByPlaca(String placa) throws SQLException {
+        String sql = "SELECT * FROM veiculos WHERE placa = ?";
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        st.setString(1, placa);
+        ResultSet rs = st.executeQuery();
+
+        Veiculo veiculo = null;
+        if (rs.next()) {
+            veiculo = new Veiculo();
+            veiculo.setPlaca(rs.getString("placa"));
+            veiculo.setPlaca(rs.getString("placa"));
+            veiculo.setMarca(rs.getString("marca"));
+            veiculo.setCor(rs.getString("cor"));
+            veiculo.setAno(rs.getInt("ano"));
+            veiculo.setModelo(rs.getString("modelo"));
+            veiculo.setQuilometragem(rs.getInt("quilometragem"));
+            veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
+            Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
+            veiculo.setCategoria(categoria.get());
         }
-        catch(SQLException e){
-            throw new DBException("Não foi possível buscar o Veículo: " + e.getMessage());
-        }
+        rs.close();
+        st.close();
+        return Optional.ofNullable(veiculo);
     }
 }
