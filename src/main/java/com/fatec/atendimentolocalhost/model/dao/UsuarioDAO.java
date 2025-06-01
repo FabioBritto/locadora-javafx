@@ -5,8 +5,6 @@
 package com.fatec.atendimentolocalhost.model.dao;
 
 import com.fatec.atendimentolocalhost.database.Database;
-import com.fatec.atendimentolocalhost.exceptions.DBException;
-import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
 import com.fatec.atendimentolocalhost.model.entities.Usuario;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
 import java.sql.PreparedStatement;
@@ -43,6 +41,7 @@ public class UsuarioDAO {
             usuario.setEmail(rs.getString("email"));
             usuario.setSenha(rs.getString("senha"));
             usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
+            usuario.setAtivo(rs.getBoolean("ativo"));
             usuarios.add(usuario);
         }
         rs.close();
@@ -65,6 +64,7 @@ public class UsuarioDAO {
             usuario.setEmail(rs.getString("email"));
             usuario.setSenha(rs.getString("senha"));
             usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
+            usuario.setAtivo(rs.getBoolean("ativo"));
             usuarios.add(usuario);
         }
         st.close();
@@ -86,6 +86,7 @@ public class UsuarioDAO {
             usuario.setEmail(rs.getString("email"));
             usuario.setSenha(rs.getString("senha"));
             usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
+            usuario.setAtivo(rs.getBoolean("ativo"));
         }
         st.close();
         rs.close();
