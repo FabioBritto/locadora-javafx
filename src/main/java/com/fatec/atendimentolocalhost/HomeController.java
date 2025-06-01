@@ -20,6 +20,9 @@ public class HomeController {
     @FXML
     private Button novoPedido;
     
+    @FXML
+    private Button btnUsuarios;
+    
  
     @FXML
     public  BorderPane borderPane;
@@ -29,7 +32,15 @@ public class HomeController {
     //Mas a ideia de troca de tela usando borderPane.setCenter() continua a mesma
     @FXML
     private void novoPedidoClick() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("novalocacao.fxml"));
+        VBox v = loader.load();
+        
+        borderPane.setCenter(v);
+    }
+    
+    @FXML
+    private void usuariosClick() throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("usuarios.fxml"));
         VBox v = loader.load();
         
         borderPane.setCenter(v);

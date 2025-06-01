@@ -23,6 +23,8 @@ public class App extends Application {
         scene = new Scene(loadFXML("home"));
         stage.setScene(scene);
         stage.setMaximized(true);
+        stage.setResizable(false);
+        stage.setFullScreen(true);
         stage.show();
         
         
