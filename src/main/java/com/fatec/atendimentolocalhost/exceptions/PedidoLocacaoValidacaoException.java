@@ -10,7 +10,7 @@ package com.fatec.atendimentolocalhost.exceptions;
  *
  * @author Fabio
  */
-public class PedidoLocacaoValidacaoException extends Exception {
+public class PedidoLocacaoValidacaoException extends RuntimeException {
     
     public PedidoLocacaoValidacaoException(String mensagem){
         super(mensagem);

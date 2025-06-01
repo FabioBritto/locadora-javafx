@@ -10,7 +10,7 @@ package com.fatec.atendimentolocalhost.exceptions;
  * 
  * @author Fabio
  */
-public class TipoSeguroValidacaoException extends Exception {
+public class TipoSeguroValidacaoException extends RuntimeException {
     
     public TipoSeguroValidacaoException(String mensagem){
         super(mensagem);

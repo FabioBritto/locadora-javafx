@@ -10,7 +10,7 @@ package com.fatec.atendimentolocalhost.exceptions;
  * 
  * @author Fabio
  */
-public class ClienteValidacaoException extends Exception {
+public class ClienteValidacaoException extends RuntimeException {
     
     public ClienteValidacaoException(String mensagem){
         super(mensagem);

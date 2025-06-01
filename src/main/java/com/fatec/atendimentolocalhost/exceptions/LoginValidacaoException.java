@@ -11,7 +11,7 @@ package com.fatec.atendimentolocalhost.exceptions;
  * @author Fabio
  * 
  */
-public class LoginValidacaoException extends Exception {
+public class LoginValidacaoException extends RuntimeException {
     
     public LoginValidacaoException(String mensagem){
         super(mensagem);
