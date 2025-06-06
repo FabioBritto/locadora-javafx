@@ -52,6 +52,5 @@ public class UsuarioService {
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
         }
-
     }
 }

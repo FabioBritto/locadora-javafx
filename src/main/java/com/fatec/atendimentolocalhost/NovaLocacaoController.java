@@ -2,10 +2,12 @@ package com.fatec.atendimentolocalhost;
 
 import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.CategoriaVeiculo;
+import com.fatec.atendimentolocalhost.model.entities.TipoSeguro;
 import com.fatec.atendimentolocalhost.model.entities.Veiculo;
 import com.fatec.atendimentolocalhost.service.CategoriaVeiculoService;
-import com.fatec.atendimentolocalhost.service.UsuarioService;
+import com.fatec.atendimentolocalhost.service.TipoSeguroService;
 import com.fatec.atendimentolocalhost.service.VeiculoService;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -20,11 +23,17 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 public class NovaLocacaoController implements Initializable {
 
+    @FXML
+    private VBox vBoxPrincipal;
+    
     @FXML
     private Button btnAvancar;
 
@@ -75,14 +84,29 @@ public class NovaLocacaoController implements Initializable {
 
     @FXML
     private TextField txtPesquisaModelo;
+    
+    @FXML
+    private ComboBox<TipoSeguro> cmbSeguro;
+    
+    @FXML
+    private TextField txtTaxa;
+    
+    @FXML
+    private TextArea txtDescricaoSeguro;
 
-    VeiculoService service;
+    //Services
+    TipoSeguroService seguroService;
+    VeiculoService veiculoService;
     CategoriaVeiculoService catService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inicializarCmbCategoria();
+        inicializarCmbSeguros();
         preencherTabela();
+        cmbSeguro.valueProperty().addListener((e) -> {
+            carregarCamposSeguro();
+        });
     }
     
     @FXML
@@ -96,10 +120,10 @@ public class NovaLocacaoController implements Initializable {
         colunaKm.setCellValueFactory(new PropertyValueFactory<>("quilometragem"));
         colunaPrecoBase.setCellValueFactory(new PropertyValueFactory<>("precoBase"));
         
-        service = new VeiculoService();
+        veiculoService = new VeiculoService();
         
         try{
-            List<Veiculo> veiculos = service.buscarVeiculos();
+            List<Veiculo> veiculos = veiculoService.buscarVeiculos();
             ObservableList<Veiculo> obsVeiculos = FXCollections.observableArrayList(veiculos);
             tabelaVeiculos.setItems(obsVeiculos);
         }
@@ -119,7 +143,41 @@ public class NovaLocacaoController implements Initializable {
         catch(DBException e){
             System.out.println("opa: " + e.getMessage());
         }
-
+    }
+    
+    @FXML
+    private void inicializarCmbSeguros() {
+        seguroService = new TipoSeguroService();
+        try{
+            List<TipoSeguro> seguros = seguroService.buscarSeguros();
+            ObservableList<TipoSeguro> obsSeguros = FXCollections.observableArrayList(seguros);
+            cmbSeguro.setItems(obsSeguros);
+        }
+        catch(DBException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    @FXML
+    private void carregarCamposSeguro() {
+        limparCamposSeguro();
+        TipoSeguro seguroEscolhido = cmbSeguro.getValue();
+        txtTaxa.setText(String.valueOf(seguroEscolhido.getTaxa()));
+        txtDescricaoSeguro.setText(seguroEscolhido.getDescricao());
+    }
+    
+    private void limparCamposSeguro() {
+        txtTaxa.setText("");
+        txtDescricaoSeguro.setText("");
+    }
+    
+    @FXML
+    private void btnAvancarClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("escolhaseguros.fxml"));
+        VBox v = loader.load();
+        
+        BorderPane borderPane = (BorderPane) vBoxPrincipal.getParent();
+        borderPane.setCenter(v);
     }
 
 }

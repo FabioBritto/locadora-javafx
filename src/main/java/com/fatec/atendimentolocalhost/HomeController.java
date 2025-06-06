@@ -25,7 +25,7 @@ public class HomeController {
     
  
     @FXML
-    public  BorderPane borderPane;
+    public BorderPane borderPane;
     
 
     //O método abaixo foi criados somente para teste, alterar na hora da criação das telas reais do sistema.
