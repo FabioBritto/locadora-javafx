@@ -62,11 +62,11 @@
                   <RadioButton fx:id="rbAtivo" mnemonicParsing="false" onAction="#desabilitarInativo" text="Ativo" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <RadioButton fx:id="rbInativo" mnemonicParsing="false" onAction="#desabilitarAtivo" text="Inativo" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#btnCadastrarClick" text="CADASTRAR" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Button fx:id="btnLimparCampos" mnemonicParsing="false" onAction="#btnLimparCamposClick" text="LIMPAR CAMPOS" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Button fx:id="btnNovoUsuario" mnemonicParsing="false" onAction="#btnNovoUsuarioClick" text="NOVO USUÁRIO" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                   <Button fx:id="btnAtualizar" mnemonicParsing="false" onAction="#btnAtualizarClick" text="ATUALIZAR" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <TextField fx:id="txtId" editable="false" prefWidth="193.0" visible="false" />
-                  <RadioButton fx:id="rbGerente" mnemonicParsing="false" text="Gerente" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <RadioButton fx:id="rbAtendente" mnemonicParsing="false" text="Atendente" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <RadioButton fx:id="rbGerente" mnemonicParsing="false" onAction="#desabilitarAtendente" text="Gerente" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="rbAtendente" mnemonicParsing="false" onAction="#desabilitarGerente" text="Atendente" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
