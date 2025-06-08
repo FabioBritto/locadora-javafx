@@ -115,14 +115,15 @@ public class UsuarioDAO {
     }
 
     public void update(Usuario usuario) throws SQLException {
-        String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ?, tipo_usuario = ? WHERE id_usuario = ?";
+        String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ?, tipo_usuario = ?, ativo = ? WHERE id_usuario = ?";
         PreparedStatement st = database.getConnection().prepareStatement(sql);
 
         st.setString(1, usuario.getNome());
         st.setString(2, usuario.getEmail());
         st.setString(3, usuario.getSenha());
         st.setInt(4, usuario.getTipoUsuario().getNumero());
-        st.setInt(5, usuario.getId());
+        st.setBoolean(5, usuario.getAtivo());
+        st.setInt(6, usuario.getId());
 
         int linhasAfetadas = st.executeUpdate();
 
