@@ -3,6 +3,7 @@ package com.fatec.atendimentolocalhost;
 import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.CategoriaVeiculo;
 import com.fatec.atendimentolocalhost.model.entities.TipoSeguro;
+import com.fatec.atendimentolocalhost.model.entities.Usuario;
 import com.fatec.atendimentolocalhost.model.entities.Veiculo;
 import com.fatec.atendimentolocalhost.service.CategoriaVeiculoService;
 import com.fatec.atendimentolocalhost.service.TipoSeguroService;
@@ -22,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -33,7 +35,7 @@ public class NovaLocacaoController implements Initializable {
 
     @FXML
     private VBox vBoxPrincipal;
-    
+
     @FXML
     private Button btnAvancar;
 
@@ -84,34 +86,38 @@ public class NovaLocacaoController implements Initializable {
 
     @FXML
     private TextField txtPesquisaModelo;
-    
+
     @FXML
     private ComboBox<TipoSeguro> cmbSeguro;
-    
+
     @FXML
     private TextField txtTaxa;
-    
+
     @FXML
     private TextArea txtDescricaoSeguro;
 
     //Services
-    TipoSeguroService seguroService;
-    VeiculoService veiculoService;
-    CategoriaVeiculoService catService;
+    private TipoSeguroService seguroService;
+    private VeiculoService veiculoService;
+    private CategoriaVeiculoService catService;
+
+    private Veiculo veiculoEscolhido;
+    private TipoSeguro seguroEscolhido;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inicializarCmbCategoria();
         inicializarCmbSeguros();
+        escolherVeiculo();
         preencherTabela();
         cmbSeguro.valueProperty().addListener((e) -> {
             carregarCamposSeguro();
         });
     }
-    
+
     @FXML
     private void preencherTabela() {
-        
+
         colunaPlaca.setCellValueFactory(new PropertyValueFactory<>("placa"));
         colunaMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colunaModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
@@ -119,15 +125,14 @@ public class NovaLocacaoController implements Initializable {
         colunaCor.setCellValueFactory(new PropertyValueFactory<>("cor"));
         colunaKm.setCellValueFactory(new PropertyValueFactory<>("quilometragem"));
         colunaPrecoBase.setCellValueFactory(new PropertyValueFactory<>("precoBase"));
-        
+
         veiculoService = new VeiculoService();
-        
-        try{
+
+        try {
             List<Veiculo> veiculos = veiculoService.buscarVeiculos();
             ObservableList<Veiculo> obsVeiculos = FXCollections.observableArrayList(veiculos);
             tabelaVeiculos.setItems(obsVeiculos);
-        }
-        catch(DBException e){
+        } catch (DBException e) {
             System.out.println("OPA:" + e.getMessage());
         }
     }
@@ -139,25 +144,23 @@ public class NovaLocacaoController implements Initializable {
             List<CategoriaVeiculo> categorias = catService.buscarCategorias();
             ObservableList<CategoriaVeiculo> obsCategorias = FXCollections.observableArrayList(categorias);
             cmbCategoria.setItems(obsCategorias);
-        }
-        catch(DBException e){
+        } catch (DBException e) {
             System.out.println("opa: " + e.getMessage());
         }
     }
-    
+
     @FXML
     private void inicializarCmbSeguros() {
         seguroService = new TipoSeguroService();
-        try{
+        try {
             List<TipoSeguro> seguros = seguroService.buscarSeguros();
             ObservableList<TipoSeguro> obsSeguros = FXCollections.observableArrayList(seguros);
             cmbSeguro.setItems(obsSeguros);
-        }
-        catch(DBException e){
+        } catch (DBException e) {
             System.out.println(e.getMessage());
         }
     }
-    
+
     @FXML
     private void carregarCamposSeguro() {
         limparCamposSeguro();
@@ -165,19 +168,49 @@ public class NovaLocacaoController implements Initializable {
         txtTaxa.setText(String.valueOf(seguroEscolhido.getTaxa()));
         txtDescricaoSeguro.setText(seguroEscolhido.getDescricao());
     }
-    
+
     private void limparCamposSeguro() {
         txtTaxa.setText("");
         txtDescricaoSeguro.setText("");
     }
-    
+
     @FXML
     private void btnAvancarClick() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("escolhaseguros.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("pagamento.fxml"));
         VBox v = loader.load();
-        
+
         BorderPane borderPane = (BorderPane) vBoxPrincipal.getParent();
         borderPane.setCenter(v);
+    }
+
+    @FXML
+    public void escolherVeiculo() {
+        tabelaVeiculos.setRowFactory(t -> {
+            TableRow<Veiculo> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    veiculoEscolhido = row.getItem();
+                    System.out.println(veiculoEscolhido);
+
+                    // Atualiza a tabela para redesenhar os estilos
+                    tabelaVeiculos.refresh();
+                }
+            });
+
+            // Esse trecho é executado para cada linha, inclusive ao "refresh"
+            row.itemProperty().addListener((obs, oldItem, newItem) -> {
+                // Estilo condicional no momento da criação da linha ou do refresh
+                row.styleProperty().unbind(); // se tiver binding anterior
+                row.setStyle(""); // reseta o estilo
+
+                if (newItem != null && newItem.equals(veiculoEscolhido)) {
+                    row.setStyle("-fx-background-color: #2e7d32; -fx-text-fill: white;"); // verde escuro + texto branco
+                }
+            });
+
+            return row;
+        });
     }
 
 }

@@ -8,8 +8,10 @@ import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.Usuario;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
 import com.fatec.atendimentolocalhost.service.UsuarioService;
+import com.fatec.atendimentolocalhost.util.Alerts;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -37,17 +40,17 @@ public class UsuariosController implements Initializable {
     private Button btnAtualizar;
 
     @FXML
-    private Button btnLimparCampos;
+    private Button btnNovoUsuario;
 
     @FXML
     private RadioButton rbAtivo;
 
     @FXML
     private RadioButton rbInativo;
-    
+
     @FXML
     private RadioButton rbGerente;
-    
+
     @FXML
     private RadioButton rbAtendente;
 
@@ -102,7 +105,12 @@ public class UsuariosController implements Initializable {
                     txtId.setText(String.valueOf(usuario.getId()));
                     txtNome.setText(usuario.getNome());
                     txtEmail.setText(usuario.getEmail());
-                    alterarCampos();
+                    if (usuario.getAtivo()) {
+                        desabilitarInativo();
+                    } else {
+                        desabilitarAtivo();
+                    }
+                    visibleEdicao();
                 }
             });
             return row;
@@ -129,64 +137,91 @@ public class UsuariosController implements Initializable {
             ObservableList<Usuario> tbUsuarios = FXCollections.observableArrayList(usuarios);
             tabelaUsuarios.setItems(tbUsuarios);
         } catch (DBException e) {
-            System.out.println("DEU PAU KKKK: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    private void btnLimparCamposClick() {
+    private void btnNovoUsuarioClick() {
         limparCampos();
     }
 
     @FXML
     private void btnCadastrarClick() {
-        Usuario usuario = new Usuario(txtNome.getText(), txtEmail.getText(), txtSenha.getText(), TipoUsuario.ATENDENTE);
-        service = new UsuarioService();
+        Optional<ButtonType> resposta = Alerts.pedirConfirmacao("CONFIRMAÇÃO", "Deseja cadastrar este usuário?");
+        if (resposta.get() == ButtonType.OK) {
+            Usuario usuario = new Usuario(txtNome.getText(), txtEmail.getText(), txtSenha.getText(), TipoUsuario.ATENDENTE);
+            if (rbAtendente.isSelected()) {
+                usuario.setTipoUsuario(TipoUsuario.ATENDENTE);
+            } else {
+                usuario.setTipoUsuario(TipoUsuario.GERENTE);
+            }
 
-        try {
-            service.cadastrarUsuario(usuario);
-        } catch (DBException e) {
-            System.out.println("DEU PAU KKKK: " + e.getMessage());
+            service = new UsuarioService();
+
+            try {
+                service.cadastrarUsuario(usuario);
+            } catch (DBException e) {
+                System.out.println(e.getMessage());
+            }
+            tabelaUsuarios.refresh();
         }
-        System.out.println("cheguei aqui");
-        tabelaUsuarios.refresh();
     }
 
     @FXML
     private void btnAtualizarClick() {
-        Usuario usuario = new Usuario(txtNome.getText(), txtEmail.getText(), txtSenha.getText(), TipoUsuario.ATENDENTE);
-        usuario.setId(Integer.valueOf(txtId.getText()));
+        Optional<ButtonType> resposta = Alerts.pedirConfirmacao("CONFIRMAÇÃO", "Deseja atualizar este usuário?");
+        if (resposta.get() == ButtonType.OK) {
+            try {
+                service = new UsuarioService();
+                Usuario usuario = service.buscarPorId(Integer.parseInt(txtId.getText()));
+                usuario.setNome(txtNome.getText());
+                usuario.setEmail(txtEmail.getText());
+                usuario.setAtivo(rbAtivo.isSelected());
 
-        service = new UsuarioService();
-
-        try {
-            service.cadastrarUsuario(usuario);
-        } catch (DBException e) {
-            System.out.println("DEU PAU KKKK: " + e.getMessage());
+                service.atualizarUsuario(usuario);
+            } catch (DBException e) {
+                System.out.println(e.getMessage());
+            }
+            tabelaUsuarios.refresh();
         }
-        System.out.println("cheguei aqui");
-        tabelaUsuarios.refresh();
     }
 
     @FXML
-    private void alterarCampos() {
-        txtId.setVisible(!txtId.isVisible());
-        txtNome.setEditable(!txtNome.isEditable());
-        txtEmail.setEditable(!txtEmail.isEditable());
-        txtSenha.setVisible(!txtSenha.isVisible());
-        txtConfirmarSenha.setVisible(!txtConfirmarSenha.isVisible());
-        rbAtivo.setVisible(!rbAtivo.isVisible());
-        rbInativo.setVisible(!rbInativo.isVisible());
-        rbGerente.setVisible(!rbGerente.isVisible());
-        rbAtendente.setVisible(!rbAtendente.isVisible());
-        btnCadastrar.setVisible(!btnCadastrar.isVisible());
-        btnAtualizar.setVisible(!btnAtualizar.isVisible());
-        btnLimparCampos.setVisible(!btnLimparCampos.isVisible());
+    private void visibleCriacao() {
+        txtId.setVisible(false);
+        txtNome.setEditable(true);
+        txtEmail.setEditable(true);
+        txtSenha.setVisible(true);
+        txtConfirmarSenha.setVisible(true);
+        rbAtivo.setVisible(false);
+        rbInativo.setVisible(false);
+        rbGerente.setVisible(true);
+        rbAtendente.setVisible(true);
+        btnCadastrar.setVisible(true);
+        btnAtualizar.setVisible(false);
+        btnNovoUsuario.setVisible(false);
+    }
+
+    @FXML
+    private void visibleEdicao() {
+        txtId.setVisible(true);
+        txtNome.setEditable(false);
+        txtEmail.setEditable(false);
+        txtSenha.setVisible(false);
+        txtConfirmarSenha.setVisible(false);
+        rbAtivo.setVisible(true);
+        rbInativo.setVisible(true);
+        rbGerente.setVisible(false);
+        rbAtendente.setVisible(false);
+        btnCadastrar.setVisible(false);
+        btnAtualizar.setVisible(true);
+        btnNovoUsuario.setVisible(true);
     }
 
     @FXML
     private void limparCampos() {
-        alterarCampos();
+        visibleCriacao();
         txtId.setText(null);
         txtNome.setText(null);
         txtEmail.setText(null);
@@ -199,10 +234,22 @@ public class UsuariosController implements Initializable {
     @FXML
     private void desabilitarAtivo() {
         rbAtivo.setSelected(false);
+        rbInativo.setSelected(true);
     }
 
     @FXML
     private void desabilitarInativo() {
         rbInativo.setSelected(false);
+        rbAtivo.setSelected(true);
+    }
+
+    @FXML
+    private void desabilitarGerente() {
+        rbGerente.setSelected(false);
+    }
+
+    @FXML
+    private void desabilitarAtendente() {
+        rbAtendente.setSelected(false);
     }
 }

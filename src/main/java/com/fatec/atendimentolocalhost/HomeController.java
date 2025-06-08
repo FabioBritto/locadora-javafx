@@ -18,10 +18,13 @@ import javafx.scene.layout.VBox;
 public class HomeController {
     
     @FXML
-    private Button novoPedido;
+    private Button btnNovoPedido;
     
     @FXML
     private Button btnUsuarios;
+    
+    @FXML
+    private Button btnClientes;
     
  
     @FXML
@@ -46,4 +49,11 @@ public class HomeController {
         borderPane.setCenter(v);
     }
     
+    @FXML
+    private void clientesClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TelaClientes.fxml"));
+        VBox v = loader.load();
+        
+        borderPane.setCenter(v);
+    }
 }
