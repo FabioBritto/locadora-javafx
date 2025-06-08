@@ -16,7 +16,8 @@ public enum MeioPagamento {
     DINHEIRO(1),
     PIX(2),
     CREDITO(3),
-    DEBITO(4);
+    DEBITO(4),
+    BOLETO(5);
     
     private Integer numero;
     
