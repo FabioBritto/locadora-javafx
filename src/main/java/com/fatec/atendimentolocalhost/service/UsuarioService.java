@@ -53,4 +53,16 @@ public class UsuarioService {
             throw new DBException(e.getMessage());
         }
     }
+    
+    public Usuario buscarPorId(Integer id) throws DBException {
+        try{
+            database = new Database();
+            UsuarioDAO usuarioDAO = new UsuarioDAO(database);
+            Usuario usuario = usuarioDAO.findById(id).get();
+            return usuario;
+        }
+        catch(SQLException e){
+            throw new DBException(e.getMessage());
+        }
+    }
 }
