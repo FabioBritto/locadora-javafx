@@ -4,14 +4,9 @@
  */
 package com.fatec.atendimentolocalhost.util;
 
-import java.util.List;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.PasswordField;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 /**
@@ -19,4 +14,24 @@ import javafx.scene.control.TextField;
  * @author Fabio
  */
 public class TelasUtil {
+    
+    public static Boolean txtPerdeuFoco(TextField textField) {
+        
+        BooleanProperty perdeuFoco = new SimpleBooleanProperty(false);
+        textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                System.out.println("true");
+                perdeuFoco.set(true);
+            }
+            else{
+                System.out.println("false");
+                perdeuFoco.set(false);
+            }
+        });
+        return perdeuFoco.getValue();
+    }
+    
+    public static void alternarRadioButton(RadioButton rb){
+        rb.setSelected(!rb.isSelected());
+    }
 }

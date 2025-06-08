@@ -36,7 +36,7 @@ public class CepApi {
      * @throws IOException
      * @throws InterruptedException 
      */
-    public CepDTO encontrarEndereco(String cep) throws IOException, InterruptedException {
+    public static CepDTO encontrarEndereco(String cep) throws IOException, InterruptedException {
         
         String endereco = URL + cep + TIPO;
         HttpClient client = HttpClient.newHttpClient();
