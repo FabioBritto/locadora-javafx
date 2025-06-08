@@ -41,7 +41,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="novoPedido" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#novoPedidoClick" prefHeight="40.0" prefWidth="124.0" styleClass="button-menu" text="Novo pedido">
+            <Button fx:id="btnNovoPedido" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#novoPedidoClick" prefHeight="40.0" prefWidth="124.0" styleClass="button-menu" text="Novo pedido">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -51,7 +51,7 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="40.0" prefWidth="124.0" styleClass="button-menu" text="Clientes">
+            <Button fx:id="btnClientes" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#clientesClick" prefHeight="40.0" prefWidth="124.0" styleClass="button-menu" text="Clientes">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
