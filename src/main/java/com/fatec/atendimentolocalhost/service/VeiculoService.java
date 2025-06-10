@@ -27,7 +27,7 @@ public class VeiculoService {
             VeiculoDAO veiculoDAO = new VeiculoDAO(database);
             return veiculoDAO.findAll();
         } catch (SQLException e) {
-            throw new DBException(e.getMessage());
+            throw new DBException("Erro ao buscar lista de Veículos");
         }
     }
 }

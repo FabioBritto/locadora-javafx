@@ -27,7 +27,7 @@ public class CategoriaVeiculoService {
             CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
             return categoriaDAO.findAll();
         } catch (SQLException e) {
-            throw new DBException(e.getMessage());
+            throw new DBException("Erro ao buscar lista de Categorias de Veículos");
         }
     }
 }

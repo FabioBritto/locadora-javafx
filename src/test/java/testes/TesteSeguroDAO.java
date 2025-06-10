@@ -19,50 +19,50 @@ import java.util.Scanner;
  * @author Alber
  */
 public class TesteSeguroDAO {
-    public static void main(String[] args) {
-        
-        List<TipoSeguro> listaSeguros = new ArrayList<>();
-        
-        Scanner sc = new Scanner(System.in);
-        
-        Database db = new Database();
-        
-        TipoSeguroDAO tsDao = new TipoSeguroDAO(db);
-        
-        try {
-            tsDao.removeAll();
-        }
-        catch (DBException e) {
-            System.out.println("Erro: " + e.getMessage());
-        }
-        
-        int n = sc.nextInt();
-        for (int i=1; i<=n; i++){
-            TipoSeguro ts = new TipoSeguro();
-            
-            ts.setId(i);
-            ts.setDescricao(sc.next());
-            ts.setNome(sc.next());
-            sc.next();
-            try{
-                ts.setTaxa(new BigDecimal(sc.next()));           
-            }
-            catch (TipoSeguroValidacaoException e){
-                System.out.println("Erro: " + e.getMessage());
-            }
-            listaSeguros.add(ts);
-        }
-        
-        for (TipoSeguro ts : listaSeguros){
-            try {
-                tsDao.createWithId(ts);
-            }
-            catch (DBException e){
-                System.out.println("Erro: " + e.getMessage());
-            }
-        }
-            
-        
-        
-    }
+//    public static void main(String[] args) {
+//        
+//        List<TipoSeguro> listaSeguros = new ArrayList<>();
+//        
+//        Scanner sc = new Scanner(System.in);
+//        
+//        Database db = new Database();
+//        
+//        TipoSeguroDAO tsDao = new TipoSeguroDAO(db);
+//        
+//        try {
+//            tsDao.removeAll();
+//        }
+//        catch (DBException e) {
+//            System.out.println("Erro: " + e.getMessage());
+//        }
+//        
+//        int n = sc.nextInt();
+//        for (int i=1; i<=n; i++){
+//            TipoSeguro ts = new TipoSeguro();
+//            
+//            ts.setId(i);
+//            ts.setDescricao(sc.next());
+//            ts.setNome(sc.next());
+//            sc.next();
+//            try{
+//                ts.setTaxa(new BigDecimal(sc.next()));           
+//            }
+//            catch (TipoSeguroValidacaoException e){
+//                System.out.println("Erro: " + e.getMessage());
+//            }
+//            listaSeguros.add(ts);
+//        }
+//        
+//        for (TipoSeguro ts : listaSeguros){
+//            try {
+//                tsDao.createWithId(ts);
+//            }
+//            catch (DBException e){
+//                System.out.println("Erro: " + e.getMessage());
+//            }
+//        }
+//            
+//        
+//        
+//    }
 }

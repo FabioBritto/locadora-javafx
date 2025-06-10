@@ -191,7 +191,6 @@ public class NovaLocacaoController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     veiculoEscolhido = row.getItem();
-                    System.out.println(veiculoEscolhido);
 
                     // Atualiza a tabela para redesenhar os estilos
                     tabelaVeiculos.refresh();

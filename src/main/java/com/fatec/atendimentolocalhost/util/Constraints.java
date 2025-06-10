@@ -22,6 +22,14 @@ public class Constraints {
         });
     }
     
+    public static void setTextFieldWithoutSpace(TextField txt) {
+        txt.textProperty().addListener((obs, oldValue, newValue) -> {
+            if(newValue != null && newValue.matches("\\s")) {
+                txt.setText(oldValue);
+            }
+        });
+    }
+    
     public static void setTextFieldMaxLength(TextField txt, int max) {
         txt.textProperty().addListener((obs, oldValue, newValue) ->{
             if(newValue != null && newValue.length() > max) {

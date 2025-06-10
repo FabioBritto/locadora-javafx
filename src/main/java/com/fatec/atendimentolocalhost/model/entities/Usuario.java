@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class Usuario {
     
     public Usuario(String nome, String email, String senha, TipoUsuario tipoUsuario) throws LoginValidacaoException {
         id = null;
-        this.nome = nome;
+        setNome(nome);
         setEmail(email);
         setSenha(senha);
         this.tipoUsuario = tipoUsuario;
@@ -48,7 +49,10 @@ public class Usuario {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome.length() < 5){
+            throw new LoginValidacaoException("O nome de Usuário deve ter ao menos 5 caracteres");
+        }
+        this.nome = nome.replace(" ", "");
     }
 
     public String getEmail() {

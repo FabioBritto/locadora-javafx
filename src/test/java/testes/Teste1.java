@@ -17,16 +17,16 @@ import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
  */
 public class Teste1 {
     
-    public static void main(String[] args) {
-        Database database = new Database(true);
-        
-        UsuarioDAO usuarioDAO = new UsuarioDAO(database);
-        try{
-            Usuario usuario = new Usuario("Fabio", "fabio.tritono@gmail.com", "12345678", TipoUsuario.ATENDENTE);
-            usuarioDAO.create(usuario);
-        }
-        catch(DBException | LoginValidacaoException e){
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        Database database = new Database(true);
+//        
+//        UsuarioDAO usuarioDAO = new UsuarioDAO(database);
+//        try{
+//            Usuario usuario = new Usuario("Fabio", "fabio.tritono@gmail.com", "12345678", TipoUsuario.ATENDENTE);
+//            usuarioDAO.create(usuario);
+//        }
+//        catch(DBException | LoginValidacaoException e){
+//            e.printStackTrace();
+//        }
+//    }
 }

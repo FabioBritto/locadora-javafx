@@ -27,7 +27,7 @@ public class TipoSeguroService {
             return seguros;
         }
         catch(SQLException e){
-            throw new DBException(e.getMessage());
+            throw new DBException("Erro ao buscar Lista de Seguros");
         }
     }
 }

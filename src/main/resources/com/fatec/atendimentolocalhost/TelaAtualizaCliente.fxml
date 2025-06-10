@@ -8,7 +8,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -33,28 +32,45 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="txtCPF" prefHeight="25.0" prefWidth="269.0" promptText="CPF:" GridPane.columnIndex="1" />
-            <TextField fx:id="txtDataNascimento" promptText="DATA DE NASCIMENTO:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="txtNomeCompleto" prefHeight="25.0" prefWidth="431.0" promptText="NOME COMPLETO:" GridPane.rowIndex="1" />
-            <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="265.0" promptText="EMAIL:" GridPane.rowIndex="2" />
-            <TextField fx:id="txtTelefone" prefHeight="25.0" prefWidth="155.0" promptText="TELEFONE:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtCPF" editable="false" prefHeight="25.0" prefWidth="269.0" promptText="CPF:" GridPane.columnIndex="1" />
+            <TextField fx:id="txtDataNascimento" editable="false" promptText="DATA DE NASCIMENTO:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtNomeCompleto" editable="false" prefHeight="25.0" prefWidth="431.0" promptText="NOME COMPLETO:" GridPane.rowIndex="2" />
+            <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="265.0" promptText="EMAIL:" GridPane.rowIndex="4" />
+            <TextField fx:id="txtTelefone" prefHeight="25.0" prefWidth="155.0" promptText="TELEFONE:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="txtId" editable="false" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <children>
+            <ButtonBar prefHeight="47.0" prefWidth="303.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <buttons>
+                  <Label fx:id="lblTelefone" text="Label" textFill="#f80303" visible="false">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                   <RadioButton fx:id="rbAtivo" mnemonicParsing="false" onAction="#desabilitarInativo" text="Ativo">
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </padding>
                   </RadioButton>
-                  <RadioButton fx:id="rbInativo" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#desabilitarAtivo" text="Inativo">
+                  <RadioButton fx:id="rbInativo" mnemonicParsing="false" onAction="#desabilitarAtivo" prefHeight="47.0" prefWidth="283.0" text="Inativo">
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </padding>
                   </RadioButton>
-               </children>
-            </HBox>
+               </buttons>
+            </ButtonBar>
+            <Label fx:id="lblNome" text="Label" textFill="#f80303" visible="false" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblEmail" text="Label" textFill="#f80303" visible="false" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <Label layoutX="25.0" layoutY="25.0" text="Endereço:">
@@ -75,15 +91,48 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TextField fx:id="txtCEP" prefHeight="25.0" prefWidth="156.0" promptText="CEP:" />
-            <TextField fx:id="txtRua" prefHeight="25.0" prefWidth="404.0" promptText="RUA:" GridPane.rowIndex="1" />
-            <TextField fx:id="txtBairro" prefHeight="25.0" prefWidth="156.0" promptText="BAIRRO" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="txtCidade" prefHeight="25.0" prefWidth="155.0" promptText="CIDADE:" GridPane.rowIndex="2" />
-            <TextField fx:id="txtEstado" prefHeight="25.0" prefWidth="161.0" promptText="ESTADO:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="txtNumero" prefHeight="25.0" prefWidth="165.0" promptText="N°:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <TextField fx:id="txtComplemento" prefHeight="25.0" prefWidth="161.0" promptText="COMPLEMENTO:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="txtRua" prefHeight="25.0" prefWidth="404.0" promptText="RUA:" GridPane.rowIndex="2" />
+            <TextField fx:id="txtBairro" prefHeight="25.0" prefWidth="156.0" promptText="BAIRRO" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtCidade" prefHeight="25.0" prefWidth="155.0" promptText="CIDADE:" GridPane.rowIndex="4" />
+            <TextField fx:id="txtEstado" prefHeight="25.0" prefWidth="161.0" promptText="ESTADO:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txtNumero" prefHeight="25.0" prefWidth="165.0" promptText="N°:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="txtComplemento" prefHeight="25.0" prefWidth="161.0" promptText="COMPLEMENTO:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="lblCep" text="Label" textFill="#f80303" visible="false" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblRua" text="Label" textFill="#f80303" visible="false" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCidade" text="Label" textFill="#f80303" visible="false" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblBairro" text="Label" textFill="#f80303" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblEstado" text="Label" textFill="#f80303" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblNumero" text="Label" textFill="#f80303" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
       <ButtonBar prefHeight="40.0" prefWidth="200.0">

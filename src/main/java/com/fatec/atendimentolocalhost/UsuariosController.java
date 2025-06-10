@@ -5,10 +5,13 @@
 package com.fatec.atendimentolocalhost;
 
 import com.fatec.atendimentolocalhost.exceptions.DBException;
+import com.fatec.atendimentolocalhost.exceptions.LoginValidacaoException;
 import com.fatec.atendimentolocalhost.model.entities.Usuario;
 import com.fatec.atendimentolocalhost.model.enums.TipoUsuario;
 import com.fatec.atendimentolocalhost.service.UsuarioService;
 import com.fatec.atendimentolocalhost.util.Alerts;
+import com.fatec.atendimentolocalhost.util.Constraints;
+import com.fatec.atendimentolocalhost.util.Verificar;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +21,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -32,6 +37,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Fabio
  */
 public class UsuariosController implements Initializable {
+
+    @FXML
+    private Label lblNome, lblEmail, lblSenha, lblSecao;
 
     @FXML
     private Button btnCadastrar;
@@ -93,6 +101,7 @@ public class UsuariosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         preencherCampos();
         preencherTabela();
+        inicializarConstraints();
     }
 
     @FXML
@@ -144,28 +153,66 @@ public class UsuariosController implements Initializable {
     @FXML
     private void btnNovoUsuarioClick() {
         limparCampos();
+        
     }
 
     @FXML
     private void btnCadastrarClick() {
-        Optional<ButtonType> resposta = Alerts.pedirConfirmacao("CONFIRMAÇÃO", "Deseja cadastrar este usuário?");
-        if (resposta.get() == ButtonType.OK) {
-            Usuario usuario = new Usuario(txtNome.getText(), txtEmail.getText(), txtSenha.getText(), TipoUsuario.ATENDENTE);
-            if (rbAtendente.isSelected()) {
-                usuario.setTipoUsuario(TipoUsuario.ATENDENTE);
-            } else {
-                usuario.setTipoUsuario(TipoUsuario.GERENTE);
-            }
 
-            service = new UsuarioService();
-
-            try {
-                service.cadastrarUsuario(usuario);
-            } catch (DBException e) {
-                System.out.println(e.getMessage());
+        Usuario usuario = criarUsuario();
+        if (!Verificar.todosAtributosPreenchidos(usuario, "getId")) {
+            Alerts.mostrarAlerta("ERRO", null, "Para continuar, preencha todos os campos corretamente.", Alert.AlertType.ERROR);
+        } else {
+            Optional<ButtonType> resposta = Alerts.pedirConfirmacao("CONFIRMAÇÃO", "Deseja cadastrar este usuário?");
+            if (resposta.get() == ButtonType.OK) {
+                service = new UsuarioService();
+                try {
+                    service.cadastrarUsuario(usuario);
+                    Alerts.mostrarAlerta("CONCLUÍDO", null, "Usuário cadastrado com sucesso!", Alert.AlertType.INFORMATION);
+                } catch (DBException e) {
+                    e.printStackTrace();
+                }
             }
-            tabelaUsuarios.refresh();
         }
+        tabelaUsuarios.refresh();
+    }
+
+    private Usuario criarUsuario() {
+        esconderLabels();
+
+        Usuario usuario = new Usuario();
+        try {
+            usuario.setNome(txtNome.getText());
+        } catch (LoginValidacaoException e) {
+            lblNome.setText(e.getMessage());
+            lblNome.setVisible(true);
+        }
+
+        try {
+            usuario.setEmail(txtEmail.getText());
+        } catch (LoginValidacaoException e) {
+            lblEmail.setText(e.getMessage());
+            lblEmail.setVisible(true);
+        }
+
+        try {
+            
+            if (!txtSenha.getText().equals(txtConfirmarSenha.getText())) {
+                throw new LoginValidacaoException("As senhas não coincidem. Tente novamente");
+            }
+            usuario.setSenha(txtSenha.getText());
+        } catch (LoginValidacaoException e) {
+            lblSenha.setText(e.getMessage());
+            lblSenha.setVisible(true);
+        }
+
+        if (rbAtendente.isSelected()) {
+            usuario.setTipoUsuario(TipoUsuario.ATENDENTE);
+        } else {
+            usuario.setTipoUsuario(TipoUsuario.GERENTE);
+        }
+        usuario.setAtivo(true);
+        return usuario;
     }
 
     @FXML
@@ -180,6 +227,7 @@ public class UsuariosController implements Initializable {
                 usuario.setAtivo(rbAtivo.isSelected());
 
                 service.atualizarUsuario(usuario);
+                Alerts.mostrarAlerta("CONCLUÍDO", null, "Usuário atualizado com sucesso!", Alert.AlertType.INFORMATION);
             } catch (DBException e) {
                 System.out.println(e.getMessage());
             }
@@ -189,6 +237,7 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void visibleCriacao() {
+        lblSecao.setText("NOVO USUÁRIO");
         txtId.setVisible(false);
         txtNome.setEditable(true);
         txtEmail.setEditable(true);
@@ -205,6 +254,7 @@ public class UsuariosController implements Initializable {
 
     @FXML
     private void visibleEdicao() {
+        lblSecao.setText("EDITAR USUÁRIO");
         txtId.setVisible(true);
         txtNome.setEditable(false);
         txtEmail.setEditable(false);
@@ -251,5 +301,15 @@ public class UsuariosController implements Initializable {
     @FXML
     private void desabilitarAtendente() {
         rbAtendente.setSelected(false);
+    }
+
+    private void inicializarConstraints() {
+        Constraints.setTextFieldWithoutSpace(txtNome);
+    }
+    
+    private void esconderLabels(){
+        lblSenha.setVisible(false);
+        lblEmail.setVisible(false);
+        lblNome.setVisible(false);
     }
 }

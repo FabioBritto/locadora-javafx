@@ -64,7 +64,7 @@ public class Cliente {
             String estado, String rua, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
         id = null;
         setCpf(cpf);
-        this.nome = nome;
+        setNome(nome);
         setEmail(email);
         setCep(cep);
         setCidade(cidade);
@@ -96,7 +96,7 @@ public class Cliente {
             String numero, String complemento, LocalDate dataNascimento, String telefone) throws ClienteValidacaoException {
         id = null;
         setCpf(cpf);
-        this.nome = nome;
+        setNome(nome);
         setEmail(email);
         setCep(cepDTO.getCep());
         setCidade(cepDTO.getCidade());
@@ -129,7 +129,7 @@ public class Cliente {
      * @param cpf
      * @throws ClienteValidacaoException 
      */
-    public void setCpf(String cpf) throws ClienteValidacaoException {
+    public void setCpf(String cpf) {
         if(cpf.length() != 11){
             throw new ClienteValidacaoException("O CPF informado é inválido");
         }
@@ -141,7 +141,10 @@ public class Cliente {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome.length() < 5){
+            throw new ClienteValidacaoException("O nome deve ter ao menos 5 caracteres");
+        }
+        this.nome = nome.replace(" ", "");
     }
 
     public String getEmail() {
@@ -270,7 +273,7 @@ public class Cliente {
     }
     
     
-    public List<PedidoLocacao> getLocacoes(){
+    public List<PedidoLocacao> recuperarLocacoes(){
         return locacoes;
     }
     
