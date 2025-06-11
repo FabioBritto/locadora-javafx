@@ -11,7 +11,7 @@ import com.fatec.atendimentolocalhost.model.entities.PedidoLocacao;
  * @author chris
  */
 public class PedidoHolder {
-    private final PedidoHolder pedidoHolder= new PedidoHolder();
+    private static final PedidoHolder pedidoHolder= new PedidoHolder();
     
     private PedidoLocacao pedido = new PedidoLocacao();
     
@@ -23,12 +23,13 @@ public class PedidoHolder {
         return pedido;
     }
     
-    public PedidoHolder getInstance(){
+    public static PedidoHolder getInstance(){
         return pedidoHolder;
     }
     
     public void restartPedido(){
         this.pedido = new PedidoLocacao();
+        pedido.setFinalizado(Boolean.FALSE);
     }
     
 }

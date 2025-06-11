@@ -8,6 +8,7 @@ import com.fatec.atendimentolocalhost.model.enums.SituacaoVeiculo;
 import com.fatec.atendimentolocalhost.service.CategoriaVeiculoService;
 import com.fatec.atendimentolocalhost.service.TipoSeguroService;
 import com.fatec.atendimentolocalhost.service.VeiculoService;
+import com.fatec.atendimentolocalhost.util.PedidoHolder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -23,6 +24,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
@@ -253,6 +256,12 @@ public class NovaLocacaoController implements Initializable {
                 };
             }
         });
+
+        datePickerDevolucao.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                PedidoHolder.getInstance().getPedido().setDevolucaoEsperada(newValue);
+            }
+        });
     }
 
     @FXML
@@ -283,6 +292,7 @@ public class NovaLocacaoController implements Initializable {
     private void carregarCamposSeguro() {
         limparCamposSeguro();
         TipoSeguro seguroEscolhido = cmbSeguro.getValue();
+        PedidoHolder.getInstance().getPedido().setTipoSeguro(seguroEscolhido);
         NumberFormat moedaBR = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         txtTaxa.setText(moedaBR.format(seguroEscolhido.getTaxa()));
         txtDescricaoSeguro.setText(seguroEscolhido.getDescricao());
@@ -295,11 +305,28 @@ public class NovaLocacaoController implements Initializable {
 
     @FXML
     private void btnAvancarClick() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("pagamento.fxml"));
-        VBox v = loader.load();
+        if (PedidoHolder.getInstance().getPedido().getDevolucaoEsperada() == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Data de devolução não escolhida!");
+            alert.setHeaderText("Escolha uma data!");
+            alert.showAndWait();
+        } else if (PedidoHolder.getInstance().getPedido().getVeiculo() == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Veículo não escolhido!");
+            alert.setHeaderText("Escolha um Veículo!");
+            alert.showAndWait();
+        } else if (PedidoHolder.getInstance().getPedido().getTipoSeguro() == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Seguro não escolhido!");
+            alert.setHeaderText("Escolha um seguro!");
+            alert.showAndWait();
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("pagamento.fxml"));
+            VBox v = loader.load();
+            BorderPane borderPane = (BorderPane) vBoxPrincipal.getParent();
+            borderPane.setCenter(v);
+        }
 
-        BorderPane borderPane = (BorderPane) vBoxPrincipal.getParent();
-        borderPane.setCenter(v);
     }
 
     @FXML
@@ -310,7 +337,7 @@ public class NovaLocacaoController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     veiculoEscolhido = row.getItem();
-
+                    PedidoHolder.getInstance().getPedido().setVeiculo(veiculoEscolhido);
                     // Atualiza a tabela para redesenhar os estilos
                     tabelaVeiculos.refresh();
                 }

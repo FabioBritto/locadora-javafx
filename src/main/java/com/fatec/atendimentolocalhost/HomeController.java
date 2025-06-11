@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost;
 
+import com.fatec.atendimentolocalhost.util.PedidoHolder;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,7 @@ public class HomeController {
     private void novoPedidoClick() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("novalocacao.fxml"));
         VBox v = loader.load();
-
+        PedidoHolder.getInstance().restartPedido();
         borderPane.setCenter(v);
     }
 
