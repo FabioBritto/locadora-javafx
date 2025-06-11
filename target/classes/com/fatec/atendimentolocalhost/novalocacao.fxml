@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="vBoxPrincipal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatec.atendimentolocalhost.NovaLocacaoController">
+<VBox fx:id="vBoxPrincipal" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatec.atendimentolocalhost.NovaLocacaoController">
    <children>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
-            <TextField fx:id="txtDataDevolucao" promptText="Data de Devolução" />
-            <DatePicker fx:id="datePickerDevolucao" />
+            <VBox>
+               <children>
+                  <Label text="Data de devolução esperada">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="datePickerDevolucao" editable="false" prefHeight="52.0" prefWidth="265.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </DatePicker>
+               </children>
+            </VBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -30,10 +46,14 @@
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <children>
             <TextField fx:id="txtPesquisaModelo" promptText="Pesquisar por nome..." />
-            <RadioButton fx:id="rbFabricante" mnemonicParsing="false" text="Fabricante" />
-            <RadioButton fx:id="rbPrecoBase" mnemonicParsing="false" text="Preço Base" />
-            <RadioButton fx:id="rbCategoria" mnemonicParsing="false" text="Categoria" />
+            <RadioButton fx:id="rbModelo" mnemonicParsing="false" text="Modelo">
+               <toggleGroup>
+                  <ToggleGroup fx:id="tipoBusca" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rbFabricante" mnemonicParsing="false" text="Fabricante" toggleGroup="$tipoBusca" />
+            <RadioButton fx:id="rbPrecoBase" mnemonicParsing="false" text="Preço Base" toggleGroup="$tipoBusca" />
             <ComboBox fx:id="cmbCategoria" prefWidth="150.0" promptText="Categoria" />
+            <Button fx:id="btnLimparBusca" mnemonicParsing="false" text="Limpar Busca" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -67,11 +87,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="cmbSeguro" prefHeight="25.0" prefWidth="289.0" promptText="Escolha um Seguro" />
-                  <TextField fx:id="txtTaxa" promptText="Taxa de Seguro" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="cmbSeguro" prefHeight="38.0" prefWidth="282.0" promptText="Escolha um Seguro" />
+                  <TextField fx:id="txtTaxa" editable="false" promptText="Taxa de Seguro" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="15.0" />
+                     </font></TextField>
                </children>
             </GridPane>
-            <TextArea fx:id="txtDescricaoSeguro" prefHeight="100.0" prefWidth="286.0" promptText="Descrição..." />
+            <TextArea fx:id="txtDescricaoSeguro" editable="false" prefHeight="95.0" prefWidth="389.0" promptText="Descrição..." wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font></TextArea>
          </children>
       </HBox>
       <ButtonBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">

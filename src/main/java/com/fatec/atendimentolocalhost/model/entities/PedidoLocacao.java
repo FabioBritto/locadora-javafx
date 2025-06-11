@@ -81,7 +81,7 @@ public class PedidoLocacao {
      * @throws PedidoLocacaoValidacaoException 
      */
     public void setDevolucaoEsperada(LocalDate devolucaoEsperada) throws PedidoLocacaoValidacaoException {
-        if(devolucaoEsperada.isBefore(LocalDate.now().plusDays(1L))){
+        if(!getFinalizado() && devolucaoEsperada.isBefore(LocalDate.now().plusDays(1L))){
             throw new PedidoLocacaoValidacaoException("A data de devolução tem de ser depois de hoje");
         }
         this.devolucaoEsperada = devolucaoEsperada;

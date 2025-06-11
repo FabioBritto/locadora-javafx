@@ -98,7 +98,7 @@ public class TipoSeguro {
 
     @Override
     public String toString() {
-        return "TipoSeguro{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", taxa=" + taxa + '}';
+        return "" + nome ;
     }
     
     

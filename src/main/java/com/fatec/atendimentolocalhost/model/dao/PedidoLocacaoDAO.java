@@ -54,9 +54,9 @@ public class PedidoLocacaoDAO {
             pedido.setId(rs.getInt("id_pedido"));
             pedido.setIdSaida(rs.getInt("id_saida"));
             pedido.setIdDevolucao(rs.getInt("id_devolucao"));
-            pedido.setDevolucaoEsperada(rs.getDate("devolucao_esperada").toLocalDate());
             pedido.setFinalizado(rs.getBoolean("finalizado"));
             pedido.setValorTotal(new BigDecimal(rs.getDouble("valor_total")));
+            pedido.setDevolucaoEsperada(rs.getDate("devolucao_esperada").toLocalDate());
             pedido.setMeioPagamento(MeioPagamento.setInteiro(rs.getInt("forma_de_pagamento")));
 
             Veiculo veiculo = veiculoDAO.findByPlaca(rs.getString("placa")).get();
@@ -90,9 +90,9 @@ public class PedidoLocacaoDAO {
             pedido.setId(rs.getInt("id_pedido"));
             pedido.setIdSaida(rs.getInt("id_saida"));
             pedido.setIdDevolucao(rs.getInt("id_devolucao"));
-            pedido.setDevolucaoEsperada(rs.getDate("devolucao_esperada").toLocalDate());
             pedido.setFinalizado(rs.getBoolean("finalizado"));
             pedido.setValorTotal(new BigDecimal(rs.getDouble("valor_total")));
+            pedido.setDevolucaoEsperada(rs.getDate("devolucao_esperada").toLocalDate());
             pedido.setMeioPagamento(MeioPagamento.setInteiro(rs.getInt("forma_de_pagamento")));
 
             Veiculo veiculo = veiculoDAO.findByPlaca(rs.getString("placa")).get();

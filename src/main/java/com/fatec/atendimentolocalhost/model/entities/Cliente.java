@@ -258,7 +258,7 @@ public class Cliente {
      * @throws ClienteValidacaoException 
      */
     public void setTelefone(String telefone) throws ClienteValidacaoException {
-        if(telefone.length() != 16){
+        if(telefone.length() > 16){
             throw new ClienteValidacaoException("Número de telefone inválido");
         }
         this.telefone = telefone;
