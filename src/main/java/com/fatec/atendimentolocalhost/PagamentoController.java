@@ -4,6 +4,9 @@
  */
 package com.fatec.atendimentolocalhost;
 
+import com.fatec.atendimentolocalhost.exceptions.DBException;
+import com.fatec.atendimentolocalhost.model.entities.Cliente;
+import com.fatec.atendimentolocalhost.service.ClienteService;
 import com.fatec.atendimentolocalhost.util.PedidoHolder;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,10 +16,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -30,7 +36,7 @@ import javafx.scene.layout.VBox;
  * @author Alber
  */
 public class PagamentoController implements Initializable {
-    
+
     @FXML
     private VBox vBoxPrincipal;
 
@@ -89,6 +95,10 @@ public class PagamentoController implements Initializable {
     @FXML
     private Button btnBuscar;
 
+    private ClienteService clienteService = new ClienteService();
+
+    private Boolean clienteEncontradoNaBusca = Boolean.FALSE;
+
     /**
      * Initializes the controller class.
      */
@@ -96,19 +106,42 @@ public class PagamentoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         preencherCampos();
         configurarBotoes();
+        if(PedidoHolder.getInstance().getPedido().getCliente() != null){
+            preencherCamposCliente();
+        }
     }
 
-   
-    public void configurarBotoes(){
+    public void configurarBotoes() {
         btnVoltar.setOnAction(e -> {
-            try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("novalocacao.fxml"));
-            VBox v = loader.load();
-            BorderPane borderPane = (BorderPane) vBoxPrincipal.getParent();
-            borderPane.setCenter(v); 
-            }catch(IOException error){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("novalocacao.fxml"));
+                VBox v = loader.load();
+                BorderPane borderPane = (BorderPane) vBoxPrincipal.getParent();
+                borderPane.setCenter(v);
+            } catch (IOException error) {
                 error.printStackTrace();
             }
+        });
+
+        btnBuscar.setOnAction(e -> {
+            try {
+                Optional<Cliente> c = clienteService.buscarClientePorCPF(txtCpf.getText());
+                if (c.isPresent()) {
+                    Cliente cliente = c.get();
+                    PedidoHolder.getInstance().getPedido().setCliente(cliente);
+                    clienteEncontradoNaBusca = Boolean.TRUE;
+                    preencherCamposCliente();
+                } else {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Cliente não encontrado!");
+                    alert.showAndWait();
+                }
+            } catch (DBException error) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setHeaderText("Erro ao buscar cliente!");
+                alert.showAndWait();
+            }
+
         });
     }
 
@@ -122,26 +155,14 @@ public class PagamentoController implements Initializable {
         txtMarca.setText(PedidoHolder.getInstance().getPedido().getVeiculo().getMarca());
         txtAno.setText(PedidoHolder.getInstance().getPedido().getVeiculo().getAno().toString());
         txtCategoria.setText(PedidoHolder.getInstance().getPedido().getVeiculo().getCategoria().toString());
-        txtCpf.setText("");
-        txtDataNascimento.setText("");
-        txtCidade.setText("");
-        txtNome.setText("");
-        txtCep.setText("");
-        txtEstado.setText("");
-        txtEmail.setText("");
-        txtRua.setText("");
-        txtComplemento.setText("");
-        txtTelefone.setText("");
-        txtBairro.setText("");
-        txtNumero.setText("");
-        
+
         BigDecimal totalGeral = BigDecimal.ZERO;
         if (PedidoHolder.getInstance().getPedido().getDevolucaoEsperada() != null) {
             BigDecimal totalSeguro = calcularValorTotalSeguro(PedidoHolder.getInstance().getPedido().getTipoSeguro().getTaxa(), PedidoHolder.getInstance().getPedido().getDevolucaoEsperada());
             lblTotalSeguro.setText(moedaBR.format(totalSeguro));
             totalGeral = totalGeral.add(totalSeguro);
         }
-        
+
         if (PedidoHolder.getInstance().getPedido().getDevolucaoEsperada() != null) {
             BigDecimal totalVeiculo = calcularValorTotalVeiculo(PedidoHolder.getInstance().getPedido().getTipoSeguro().getTaxa(), PedidoHolder.getInstance().getPedido().getDevolucaoEsperada());
             lblTotalVeiculo.setText(moedaBR.format(totalVeiculo));
@@ -149,8 +170,27 @@ public class PagamentoController implements Initializable {
         }
         lblTotalGeral.setText(moedaBR.format(totalGeral));
         lblDataDevolucao.setText(PedidoHolder.getInstance().getPedido().getDevolucaoEsperada().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        
+
         txtDescricaoSeguro.setText(PedidoHolder.getInstance().getPedido().getTipoSeguro().getDescricao());
+    }
+
+    public void preencherCamposCliente() {
+        txtCpf.setText(PedidoHolder.getInstance().getPedido().getCliente().getCpf());
+        if (PedidoHolder.getInstance().getPedido().getCliente().getDataNascimento() != null) {
+            txtDataNascimento.setText(PedidoHolder.getInstance().getPedido().getCliente().getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        } else {
+            txtDataNascimento.setText("");
+        }
+        txtCidade.setText(PedidoHolder.getInstance().getPedido().getCliente().getCidade());
+        txtNome.setText(PedidoHolder.getInstance().getPedido().getCliente().getNome());
+        txtCep.setText(PedidoHolder.getInstance().getPedido().getCliente().getCep());
+        txtEstado.setText(PedidoHolder.getInstance().getPedido().getCliente().getEstado());
+        txtEmail.setText(PedidoHolder.getInstance().getPedido().getCliente().getEmail());
+        txtRua.setText(PedidoHolder.getInstance().getPedido().getCliente().getRua());
+        txtComplemento.setText(PedidoHolder.getInstance().getPedido().getCliente().getComplemento());
+        txtTelefone.setText(PedidoHolder.getInstance().getPedido().getCliente().getTelefone());
+        txtBairro.setText(PedidoHolder.getInstance().getPedido().getCliente().getBairro());
+        txtNumero.setText(PedidoHolder.getInstance().getPedido().getCliente().getNumero());
     }
 
     public BigDecimal calcularValorTotalVeiculo(BigDecimal valorBaseVeiculo, LocalDate dataDevolução) {

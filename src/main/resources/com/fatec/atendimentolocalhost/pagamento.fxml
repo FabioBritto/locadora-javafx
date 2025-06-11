@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vBoxPrincipal" alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="847.0" prefWidth="1169.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatec.atendimentolocalhost.PagamentoController">
+<VBox fx:id="vBoxPrincipal" alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="847.0" prefWidth="1169.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fatec.atendimentolocalhost.PagamentoController">
    <children>
       <Label text="Pagamento">
          <VBox.margin>
@@ -38,34 +38,97 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="txtPlaca" editable="false" promptText="Placa" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                  <VBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField fx:id="txtCor" editable="false" promptText="Cor" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Placa">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtPlaca" editable="false" promptText="Placa" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField fx:id="txtModelo" editable="false" promptText="Modelo" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Cor">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtCor" editable="false" promptText="Cor" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField fx:id="txtValorBase" editable="false" promptText="Valor Base" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Modelo">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtModelo" editable="false" promptText="Modelo" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField fx:id="txtMarca" editable="false" promptText="Marca" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Valor Base">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtValorBase" editable="false" promptText="Valor Base" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField fx:id="txtAno" editable="false" promptText="Ano" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Fabricante">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtMarca" editable="false" promptText="Marca" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
-                  <TextField fx:id="txtCategoria" editable="false" promptText="Categoria" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Ano">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtAno" editable="false" promptText="Ano" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
-                     </GridPane.margin></TextField>
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Categoria">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtCategoria" editable="false" promptText="Categoria" />
+                     </children>
+                  </VBox>
                   <Label text="Veículo">
                      <GridPane.margin>
                         <Insets left="5.0" />
@@ -120,74 +183,171 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                  <HBox alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
                      <children>
-                        <TextField fx:id="txtCpf" prefHeight="25.0" prefWidth="184.0" promptText="CPF">
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button fx:id="btnBuscar" alignment="CENTER" mnemonicParsing="false" text="Buscar" HBox.hgrow="ALWAYS" />
+                        <VBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="260.0">
+                           <children>
+                              <Label text="CPF">
+                                 <font>
+                                    <Font name="Calibri Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="BOTTOM_LEFT">
+                                 <children>
+                                    <TextField fx:id="txtCpf" prefHeight="25.0" prefWidth="184.0" promptText="CPF" />
+                                    <Button fx:id="btnBuscar" alignment="CENTER" mnemonicParsing="false" text="Buscar" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
-                  <TextField fx:id="txtDataNascimento" promptText="Data de Nascimento" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                  <VBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtCidade" promptText="Cidade" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Data de nascimento">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtDataNascimento" promptText="Data de Nascimento" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtNome" promptText="Nome Completo" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Cidade">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtCidade" promptText="Cidade" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtCep" promptText="CEP" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Nome completo">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNome" promptText="Nome Completo" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtEstado" promptText="Estado" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="CEP">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtCep" promptText="CEP" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtEmail" promptText="Email" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Estado">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEstado" promptText="Estado" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtRua" promptText="Rua" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Email">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmail" promptText="Email" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtComplemento" promptText="Complemento" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Rua">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtRua" promptText="Rua" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtTelefone" promptText="Telefone" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Complemento">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtComplemento" promptText="Complemento" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtBairro" promptText="Bairro" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Telefone">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtTelefone" promptText="Telefone" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
-                  <TextField fx:id="txtNumero" promptText="Número" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Bairro">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtBairro" promptText="Bairro" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </TextField>
+                     <children>
+                        <Label text="Número da casa">
+                           <font>
+                              <Font name="Calibri Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNumero" promptText="Número" />
+                     </children>
+                  </VBox>
                   <HBox alignment="CENTER_LEFT" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
@@ -274,21 +434,27 @@
       </HBox>
       <HBox alignment="BOTTOM_RIGHT" prefHeight="82.0" prefWidth="1040.0">
          <children>
-            <Button fx:id="btnVoltar" mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Voltar">
+            <Button fx:id="btnVoltar" mnemonicParsing="false" prefHeight="61.0" prefWidth="126.0" text="Voltar">
                <HBox.margin>
                   <Insets bottom="15.0" right="20.0" />
                </HBox.margin>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="Calibri Bold Italic" size="20.0" />
+               </font>
             </Button>
-          <Button fx:id="btnFinalizar" mnemonicParsing="false" prefHeight="48.0" prefWidth="126.0" text="Finalizar">
+          <Button fx:id="btnFinalizar" mnemonicParsing="false" prefHeight="61.0" prefWidth="126.0" text="Finalizar">
                <HBox.margin>
                   <Insets bottom="15.0" right="20.0" />
                </HBox.margin>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="Calibri Bold Italic" size="20.0" />
+               </font>
             </Button>
          </children>
       </HBox>

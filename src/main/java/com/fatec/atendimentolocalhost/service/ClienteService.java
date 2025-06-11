@@ -12,51 +12,63 @@ import com.fatec.atendimentolocalhost.model.entities.Cliente;
 import com.fatec.atendimentolocalhost.util.Verificar;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author Fabio
  */
 public class ClienteService {
-    
-    Database database;
-    
+
+    private Database database;
+
+    public ClienteService() {
+        database = new Database();
+    }
+
     public List<Cliente> buscarClientes() throws DBException {
-        try{
-            database = new Database();
+        try {
+
             ClienteDAO clienteDAO = new ClienteDAO(database);
             List<Cliente> clientes = clienteDAO.findAll();
             return clientes;
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             throw new DBException("Erro ao buscar lista de Clientes");
         }
     }
     
-    public void cadastrarCliente(Cliente cliente) throws DBException {
-        try{
-            if(!Verificar.todosAtributosPreenchidos(cliente, "getId")){
-                throw new CampoVazioException("Atenção. Preencha todos os dados de Cliente");
-            }
-            database = new Database();
+     public Optional<Cliente> buscarClientePorCPF(String cpf) throws DBException {
+        try {
             ClienteDAO clienteDAO = new ClienteDAO(database);
-            clienteDAO.createCliente(cliente);
-        }
-        catch(SQLException e){
-            throw new DBException("Erro ao cadastrar Cliente");
+            return clienteDAO.findByCpf(cpf);
+        } catch (SQLException e) {
+            throw new DBException("Erro ao buscar Cliente");
         }
     }
     
-    public void atualizarCliente(Cliente cliente) throws DBException {
-        try{
-            if(!Verificar.todosAtributosPreenchidos(cliente, "getId", "getComplemento")){
+
+    public void cadastrarCliente(Cliente cliente) throws DBException {
+        try {
+            if (!Verificar.todosAtributosPreenchidos(cliente, "getId")) {
                 throw new CampoVazioException("Atenção. Preencha todos os dados de Cliente");
             }
-            database = new Database();
+
+            ClienteDAO clienteDAO = new ClienteDAO(database);
+            clienteDAO.createCliente(cliente);
+        } catch (SQLException e) {
+            throw new DBException("Erro ao cadastrar Cliente");
+        }
+    }
+
+    public void atualizarCliente(Cliente cliente) throws DBException {
+        try {
+            if (!Verificar.todosAtributosPreenchidos(cliente, "getId", "getComplemento")) {
+                throw new CampoVazioException("Atenção. Preencha todos os dados de Cliente");
+            }
+
             ClienteDAO clienteDAO = new ClienteDAO(database);
             clienteDAO.updateCliente(cliente);
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             throw new DBException("Erro ao atualizar Cliente");
         }
     }
