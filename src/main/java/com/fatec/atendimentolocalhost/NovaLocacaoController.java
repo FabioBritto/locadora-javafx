@@ -211,5 +211,4 @@ public class NovaLocacaoController implements Initializable {
             return row;
         });
     }
-
 }

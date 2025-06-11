@@ -38,6 +38,7 @@ com\fatec\atendimentolocalhost\PagamentoController.class
 com\fatec\atendimentolocalhost\App.class
 com\fatec\atendimentolocalhost\database\Database.class
 com\fatec\atendimentolocalhost\model\enums\MeioPagamento.class
+com\fatec\atendimentolocalhost\SegurosController.class
 com\fatec\atendimentolocalhost\model\dto\CepDTO.class
 com\fatec\atendimentolocalhost\exceptions\DBException.class
 com\fatec\atendimentolocalhost\service\VeiculoService.class

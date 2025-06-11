@@ -26,6 +26,9 @@ public class HomeController {
     @FXML
     private Button btnClientes;
     
+    @FXML
+    private Button btnSeguros;
+    
  
     @FXML
     public BorderPane borderPane;
@@ -52,6 +55,14 @@ public class HomeController {
     @FXML
     private void clientesClick() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TelaClientes.fxml"));
+        VBox v = loader.load();
+        
+        borderPane.setCenter(v);
+    }
+    
+    @FXML
+    private void segurosClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("seguros.fxml"));
         VBox v = loader.load();
         
         borderPane.setCenter(v);

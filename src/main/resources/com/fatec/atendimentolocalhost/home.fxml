@@ -21,7 +21,7 @@
                   <Insets bottom="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button alignment="CENTER_RIGHT" contentDisplay="TOP" mnemonicParsing="false" prefHeight="39.0" prefWidth="124.0" styleClass="button-menu" stylesheets="@style/estilo.css" text="Seguros">
+            <Button fx:id="btnSeguros" alignment="CENTER_RIGHT" contentDisplay="TOP" mnemonicParsing="false" onAction="#segurosClick" prefHeight="39.0" prefWidth="124.0" styleClass="button-menu" stylesheets="@style/estilo.css" text="Seguros">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>

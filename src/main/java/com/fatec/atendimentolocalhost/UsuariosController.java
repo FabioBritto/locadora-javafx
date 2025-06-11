@@ -196,7 +196,6 @@ public class UsuariosController implements Initializable {
         }
 
         try {
-            
             if (!txtSenha.getText().equals(txtConfirmarSenha.getText())) {
                 throw new LoginValidacaoException("As senhas não coincidem. Tente novamente");
             }
