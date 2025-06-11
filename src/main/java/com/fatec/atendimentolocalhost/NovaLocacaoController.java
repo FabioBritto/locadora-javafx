@@ -3,8 +3,8 @@ package com.fatec.atendimentolocalhost;
 import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.CategoriaVeiculo;
 import com.fatec.atendimentolocalhost.model.entities.TipoSeguro;
-import com.fatec.atendimentolocalhost.model.entities.Usuario;
 import com.fatec.atendimentolocalhost.model.entities.Veiculo;
+import com.fatec.atendimentolocalhost.model.enums.SituacaoVeiculo;
 import com.fatec.atendimentolocalhost.service.CategoriaVeiculoService;
 import com.fatec.atendimentolocalhost.service.TipoSeguroService;
 import com.fatec.atendimentolocalhost.service.VeiculoService;
@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -129,7 +130,7 @@ public class NovaLocacaoController implements Initializable {
         veiculoService = new VeiculoService();
 
         try {
-            List<Veiculo> veiculos = veiculoService.buscarVeiculos();
+            List<Veiculo> veiculos = veiculoService.buscarVeiculos().stream().filter(veiculo -> veiculo.getSitucao().equals(SituacaoVeiculo.DISPONÍVEL)).collect(Collectors.toList());           
             ObservableList<Veiculo> obsVeiculos = FXCollections.observableArrayList(veiculos);
             tabelaVeiculos.setItems(obsVeiculos);
         } catch (DBException e) {
