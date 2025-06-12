@@ -32,6 +32,9 @@ public class PedidoLocacao {
     
     public PedidoLocacao(){
         finalizado = Boolean.FALSE;
+        Usuario u = new Usuario();
+        u.setId(2);
+        atendente = u;
     }
     
     public PedidoLocacao(LocalDate devolucaoEsperada,
