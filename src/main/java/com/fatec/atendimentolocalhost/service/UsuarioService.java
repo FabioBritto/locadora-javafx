@@ -12,6 +12,7 @@ import com.fatec.atendimentolocalhost.model.entities.Usuario;
 import com.fatec.atendimentolocalhost.util.Verificar;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -20,6 +21,10 @@ import java.util.List;
 public class UsuarioService {
 
     private Database database;
+    
+    public UsuarioService(){
+        database = new Database();
+    }
 
     public void cadastrarUsuario(Usuario usuario) throws DBException {
         try {
@@ -70,6 +75,15 @@ public class UsuarioService {
         }
         catch(SQLException e){
             throw new DBException("Erro ao buscar Usuário por ID");
+        }
+    }
+    
+     public Optional<Usuario> buscarPorNome(String nome)throws DBException{
+        try {
+            UsuarioDAO usuarioDao = new UsuarioDAO(database);
+            return usuarioDao.findByNomeOrEmail(nome);
+        } catch (SQLException e) {
+            throw new DBException("Erro ao encontrar usuário!");
         }
     }
 }

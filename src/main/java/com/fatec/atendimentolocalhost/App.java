@@ -20,10 +20,11 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         
         Database database = new Database();
-        scene = new Scene(loadFXML("home"));
+        scene = new Scene(loadFXML("LoginN"));
         stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setResizable(true);
+        stage.setWidth(354);
+        stage.setHeight(570);
+        stage.setResizable(false);
         stage.show();
         
         

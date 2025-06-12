@@ -332,11 +332,10 @@ public class PedidoLocacaoDAO {
 
     private void createSaida(PedidoLocacao pedido) throws SQLException {
 
-        String sql = "INSERT INTO saidas_veiculos(id_pedido, id_assistente, placa) VALUES( ?,?,?);";
+        String sql = "INSERT INTO saidas_veiculos(id_pedido, placa) VALUES( ?,?);";
         PreparedStatement ps = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, pedido.getId());
-        ps.setInt(2, pedido.getAtendente().getId());
-        ps.setString(3, pedido.getVeiculo().getPlaca());
+        ps.setString(2, pedido.getVeiculo().getPlaca());
 
         int linhas = ps.executeUpdate();
 

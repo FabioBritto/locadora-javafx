@@ -144,4 +144,33 @@ public class UsuarioDAO {
             System.out.println("Linhas Afetadas: " + linhasAfetadas);
         }
     }
+    
+     public Optional<Usuario> findByNomeOrEmail(String texto)throws SQLException{
+        String sql = "SELECT * FROM usuarios WHERE ";
+        if(texto.trim().contains("@") && texto.trim().contains(".com")){
+            sql+= "email = ?;";
+        }else{
+            sql += "nome = ?;";
+        }
+    
+        PreparedStatement st = database.getConnection().prepareStatement(sql);
+        st.setString(1, texto);
+        ResultSet rs = st.executeQuery();
+
+        Usuario usuario = null;
+        if(rs.next()){
+            usuario = new Usuario();
+            usuario.setId(rs.getInt("id_usuario"));
+            usuario.setNome(rs.getString("nome"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setSenha(rs.getString("senha"));
+            usuario.setTipoUsuario(TipoUsuario.setInteiro(rs.getInt("tipo_usuario")));
+            usuario.setAtivo(rs.getBoolean("ativo"));
+        }
+        st.close();
+        rs.close();
+
+        return Optional.ofNullable(usuario);
+        
+    }
 }
