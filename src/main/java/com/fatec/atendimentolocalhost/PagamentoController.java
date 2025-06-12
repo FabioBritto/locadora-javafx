@@ -7,24 +7,33 @@ package com.fatec.atendimentolocalhost;
 import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.Cliente;
+import com.fatec.atendimentolocalhost.model.enums.MeioPagamento;
 import com.fatec.atendimentolocalhost.service.ClienteService;
+import com.fatec.atendimentolocalhost.service.PedidoLocacaoService;
 import com.fatec.atendimentolocalhost.util.PedidoHolder;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -38,6 +47,9 @@ import javafx.scene.layout.VBox;
  * @author Alber
  */
 public class PagamentoController implements Initializable {
+
+    @FXML
+    private ComboBox cmbFormaPagamento;
 
     @FXML
     private VBox vBoxPrincipal;
@@ -103,7 +115,14 @@ public class PagamentoController implements Initializable {
     @FXML
     private Button btnBuscar;
 
+    @FXML
+    private Button btnConfirmarEdicao;
+
+    private ObservableList<MeioPagamento> meiosPg = FXCollections.observableArrayList();
+
     private ClienteService clienteService = new ClienteService();
+
+    private PedidoLocacaoService pedidoService = new PedidoLocacaoService();
 
     private Boolean clienteEncontradoNaBusca = Boolean.FALSE;
 
@@ -117,6 +136,12 @@ public class PagamentoController implements Initializable {
         if (PedidoHolder.getInstance().getPedido().getCliente() != null) {
             preencherCamposCliente();
         }
+        meiosPg.add(MeioPagamento.BOLETO);
+        meiosPg.add(MeioPagamento.CREDITO);
+        meiosPg.add(MeioPagamento.DEBITO);
+        meiosPg.add(MeioPagamento.DINHEIRO);
+        meiosPg.add(MeioPagamento.PIX);
+        cmbFormaPagamento.setItems(meiosPg);
 
     }
 
@@ -164,10 +189,12 @@ public class PagamentoController implements Initializable {
                 txtCpf.setDisable(true);
                 btnBuscar.setDisable(true);
                 pkDataNascimento.setDisable(true);
+                btnConfirmarEdicao.setDisable(false);
             } else {
                 btnEditar.setText("Editar");
                 desabilitarCamposCliente();
                 preencherCamposCliente();
+                btnConfirmarEdicao.setDisable(true);
             }
         });
         btnLimparCampos.setOnAction(e -> {
@@ -179,6 +206,7 @@ public class PagamentoController implements Initializable {
             pkDataNascimento.setDisable(false);
             btnEditar.setDisable(true);
             btnEditar.setText("Editar");
+            clienteEncontradoNaBusca = Boolean.FALSE;
         });
 
         btnFinalizar.setOnAction(e -> {
@@ -188,29 +216,80 @@ public class PagamentoController implements Initializable {
                 alert.showAndWait();
             } else {
                 try {
-                    Cliente cliente = new Cliente();
-                    cliente.setAtivo(Boolean.TRUE);
-                    cliente.setBairro(txtBairro.getText());
-                    cliente.setCep(txtCep.getText());
-                    cliente.setCidade(txtCidade.getText());
-                    cliente.setComplemento(txtComplemento.getText());
-                    cliente.setCpf(txtCep.getText());
-                    cliente.setDataNascimento(pkDataNascimento.getValue());
-                    cliente.setEmail(txtEmail.getText());
-                    cliente.setEstado(txtEstado.getText());
-                    cliente.setNome(txtNome.getText());
-                    cliente.setNumero(txtNumero.getText());
-                    cliente.setRua(txtRua.getText());
-                    cliente.setTelefone(txtTelefone.getText());
-                    
-                    
-                    
+                    if (verificarCMB()) {
+                        MeioPagamento meio;
+                        if (cmbFormaPagamento.getValue() == MeioPagamento.BOLETO) {
+                            meio = MeioPagamento.BOLETO;
+                        } else if (cmbFormaPagamento.getValue() == MeioPagamento.CREDITO) {
+                            meio = MeioPagamento.CREDITO;
+                        } else if (cmbFormaPagamento.getValue() == MeioPagamento.DEBITO) {
+                            meio = MeioPagamento.DEBITO;
+                        } else if (cmbFormaPagamento.getValue() == MeioPagamento.DINHEIRO) {
+                            meio = MeioPagamento.DINHEIRO;
+                        } else {
+                            meio = MeioPagamento.PIX;
+                        }
+                        PedidoHolder.getInstance().getPedido().setMeioPagamento(meio);
+                        if (clienteEncontradoNaBusca) {
+                            clienteService.atualizarCliente(PedidoHolder.getInstance().getPedido().getCliente());
+                        } else {
+                            clienteService.cadastrarCliente(PedidoHolder.getInstance().getPedido().getCliente());
+                        }
+
+                        // Instancia formatador de moeda do Brasil
+                        NumberFormat moedaBR = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+                        // Recupera o texto da label, ex: "R$ 1.234,56"
+                        String texto = lblTotalGeral.getText();
+
+                        // Faz o parse da string formatada para um Number
+                        Number numero = moedaBR.parse(texto);
+
+                        // Converte para BigDecimal corretamente
+                        BigDecimal valor = new BigDecimal(numero.toString());
+
+                        // Seta no pedido
+                        PedidoHolder.getInstance().getPedido().setValorTotal(valor);
+                        pedidoService.criarLocacao(PedidoHolder.getInstance().getPedido());
+                        Alert alert = new Alert(AlertType.CONFIRMATION);
+                        alert.setHeaderText("Pedido feito!");
+                        alert.showAndWait();
+                        Parent p = vBoxPrincipal.getParent();
+                        BorderPane bp = (BorderPane) p;
+                        bp.setCenter(null);
+                    }
                 } catch (ClienteValidacaoException clErro) {
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setHeaderText("Dados do cliente inválidos, verifique\nCPF,NOME, EMAIL, TELEFONE, CEP E DATA DE NASCIMENTO!");
                     alert.showAndWait();
+                } catch (DBException dbErro) {
+
+                } catch (ParseException ex) {
+                    Logger.getLogger(PagamentoController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        });
+
+        btnConfirmarEdicao.setOnAction(e -> {
+            Cliente cliente = new Cliente();
+            cliente.setAtivo(Boolean.TRUE);
+            cliente.setBairro(txtBairro.getText());
+            cliente.setCep(txtCep.getText());
+            cliente.setCidade(txtCidade.getText());
+            cliente.setComplemento(txtComplemento.getText());
+            cliente.setCpf(txtCpf.getText());
+            cliente.setDataNascimento(pkDataNascimento.getValue());
+            cliente.setEmail(txtEmail.getText());
+            cliente.setEstado(txtEstado.getText());
+            cliente.setNome(txtNome.getText());
+            cliente.setNumero(txtNumero.getText());
+            cliente.setRua(txtRua.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setId(PedidoHolder.getInstance().getPedido().getCliente().getId());
+            btnEditar.setText("Editar");
+            desabilitarCamposCliente();
+            btnConfirmarEdicao.setDisable(true);
+            PedidoHolder.getInstance().getPedido().setCliente(cliente);
         });
     }
 
@@ -339,6 +418,17 @@ public class PagamentoController implements Initializable {
                 && !txtBairro.getText().trim().isEmpty()
                 && !txtNumero.getText().trim().isEmpty()
                 && !txtCpf.getText().trim().isEmpty();
+    }
+
+    public Boolean verificarCMB() {
+        Boolean preenchido = true;
+        if (cmbFormaPagamento.getValue() == null) {
+            preenchido = false;
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setHeaderText("Escolha uma forma de pagamento!");
+            alert.showAndWait();
+        }
+        return preenchido;
     }
 
 }
