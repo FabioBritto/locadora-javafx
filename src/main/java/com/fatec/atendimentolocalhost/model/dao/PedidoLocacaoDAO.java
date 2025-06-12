@@ -5,8 +5,6 @@
 package com.fatec.atendimentolocalhost.model.dao;
 
 import com.fatec.atendimentolocalhost.database.Database;
-import com.fatec.atendimentolocalhost.exceptions.DBException;
-import com.fatec.atendimentolocalhost.exceptions.PedidoLocacaoValidacaoException;
 import com.fatec.atendimentolocalhost.model.entities.Cliente;
 import com.fatec.atendimentolocalhost.model.entities.PedidoLocacao;
 import com.fatec.atendimentolocalhost.model.entities.TipoSeguro;
@@ -255,20 +253,21 @@ public class PedidoLocacaoDAO {
     }
 
     public void create(PedidoLocacao pedido) throws SQLException {
+        
+        System.out.println(pedido);
+        
         String sql = "INSERT INTO pedidos_locacao (id_atendente, id_cliente, id_seguro,"
-                + "placa, id_saida, id_devolucao, devolucao_esperada, forma_de_pagamento,"
-                + "finalizado, valor_total) VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "placa, devolucao_esperada, forma_de_pagamento,"
+                + "finalizado, valor_total) VALUES(? ,?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement st = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         st.setInt(1, pedido.getAtendente().getId());
         st.setInt(2, pedido.getCliente().getId());
         st.setInt(3, pedido.getTipoSeguro().getId());
         st.setString(4, pedido.getVeiculo().getPlaca());
-        st.setInt(5, pedido.getIdSaida());
-        st.setInt(6, pedido.getIdDevolucao());
-        st.setDate(7, Date.valueOf(pedido.getDevolucaoEsperada()));
-        st.setInt(8, pedido.getMeioPagamento().getNumero());
-        st.setBoolean(9, pedido.getFinalizado());
-        st.setDouble(10, pedido.getValorTotal().doubleValue());
+        st.setDate(5, Date.valueOf(pedido.getDevolucaoEsperada()));
+        st.setInt(6, pedido.getMeioPagamento().getNumero());
+        st.setBoolean(7, pedido.getFinalizado());
+        st.setDouble(8, pedido.getValorTotal().doubleValue());
 
         int linhas = st.executeUpdate();
 
@@ -277,9 +276,14 @@ public class PedidoLocacaoDAO {
             if (rs.next()) {
                 pedido.setId(rs.getInt(1));
             }
-            rs.close();
         }
+        
+        createSaida(pedido);
+        createDevolucao(pedido);
         st.close();
+
+        update(pedido);
+        
     }
 
     public void update(PedidoLocacao pedido) throws SQLException {
@@ -324,5 +328,48 @@ public class PedidoLocacaoDAO {
         if (linhasAfetadas > 0) {
             System.out.println("Linhas Afetadas: " + linhasAfetadas);
         }
+    }
+
+    private void createSaida(PedidoLocacao pedido) throws SQLException {
+
+        String sql = "INSERT INTO saidas_veiculos(id_pedido, id_assistente, placa) VALUES( ?,?,?);";
+        PreparedStatement ps = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, pedido.getId());
+        ps.setInt(2, pedido.getAtendente().getId());
+        ps.setString(3, pedido.getVeiculo().getPlaca());
+
+        int linhas = ps.executeUpdate();
+
+        if (linhas > 0) {
+            System.out.println("Linhas afetadas: " + linhas);
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                pedido.setIdSaida(rs.getInt(1));
+            }
+        }
+    }
+
+    private void createDevolucao(PedidoLocacao pedido) throws SQLException {
+
+        String sql = "INSERT INTO devolucoes_veiculos "
+                + "(id_pedido, placa) "
+                + "VALUES (?, ?);";
+
+        PreparedStatement ps = database.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+        ps.setInt(1, pedido.getId());
+        ps.setString(2, pedido.getVeiculo().getPlaca());
+
+        int linhas = ps.executeUpdate();
+
+        if (linhas > 0) {
+            System.out.println("Linhas afetadas: " + linhas);
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                pedido.setIdDevolucao(rs.getInt(1));
+            }
+        }
+
+        ps.close();
     }
 }

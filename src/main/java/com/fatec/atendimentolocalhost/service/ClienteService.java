@@ -49,7 +49,7 @@ public class ClienteService {
 
     public void cadastrarCliente(Cliente cliente) throws DBException {
         try {
-            if (!Verificar.todosAtributosPreenchidos(cliente, "getId")) {
+            if (!Verificar.todosAtributosPreenchidos(cliente, "getId", "getComplemento")) {
                 throw new CampoVazioException("Atenção. Preencha todos os dados de Cliente");
             }
 
