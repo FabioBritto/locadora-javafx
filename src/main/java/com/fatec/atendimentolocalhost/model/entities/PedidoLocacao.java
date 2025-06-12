@@ -6,6 +6,7 @@ package com.fatec.atendimentolocalhost.model.entities;
 
 import com.fatec.atendimentolocalhost.exceptions.PedidoLocacaoValidacaoException;
 import com.fatec.atendimentolocalhost.model.enums.MeioPagamento;
+import com.fatec.atendimentolocalhost.util.UsuarioHolder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -32,9 +33,7 @@ public class PedidoLocacao {
     
     public PedidoLocacao(){
         finalizado = Boolean.FALSE;
-        Usuario u = new Usuario();
-        u.setId(2);
-        atendente = u;
+        atendente = UsuarioHolder.getInstance().getUsuario();
     }
     
     public PedidoLocacao(LocalDate devolucaoEsperada,
