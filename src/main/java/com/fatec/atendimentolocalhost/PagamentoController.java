@@ -6,8 +6,11 @@ package com.fatec.atendimentolocalhost;
 
 import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import com.fatec.atendimentolocalhost.exceptions.DBException;
+import com.fatec.atendimentolocalhost.model.dto.CepDTO;
 import com.fatec.atendimentolocalhost.model.entities.Cliente;
 import com.fatec.atendimentolocalhost.service.ClienteService;
+import com.fatec.atendimentolocalhost.util.CepApi;
+import com.fatec.atendimentolocalhost.util.Constraints;
 import com.fatec.atendimentolocalhost.util.PedidoHolder;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -112,8 +115,14 @@ public class PagamentoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        inicializarConstraints();
         preencherCampos();
         configurarBotoes();
+        txtCep.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                preencherEndereco();
+            }
+        });
         if (PedidoHolder.getInstance().getPedido().getCliente() != null) {
             preencherCamposCliente();
         }
@@ -341,4 +350,24 @@ public class PagamentoController implements Initializable {
                 && !txtCpf.getText().trim().isEmpty();
     }
 
+    @FXML
+    private void preencherEndereco() {
+        try {
+            CepDTO cep = CepApi.encontrarEndereco(txtCep.getText());
+            txtRua.setText(cep.getRua());
+            txtBairro.setText(cep.getBairro());
+            txtCidade.setText(cep.getCidade());
+            txtEstado.setText(cep.getEstado());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void inicializarConstraints() {
+        Constraints.setTextFieldMaxLength(txtCpf, 11);
+        Constraints.setTextFieldMaxLength(txtCep, 8);
+        Constraints.setTextFieldMaxLength(txtTelefone, 16);
+        Constraints.setTextFieldInteger(txtCpf);
+        Constraints.setTextFieldInteger(txtCep);
+    }
 }

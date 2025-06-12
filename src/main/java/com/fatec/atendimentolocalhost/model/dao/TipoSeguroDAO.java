@@ -74,7 +74,7 @@ public class TipoSeguroDAO {
 
         st.setString(1, tipoSeguro.getNome());
         st.setString(2, tipoSeguro.getDescricao());
-        st.setDouble(3, tipoSeguro.getTaxa().doubleValue());
+        st.setBigDecimal(3, tipoSeguro.getTaxa());
 
         int linhas = st.executeUpdate();
 
@@ -96,7 +96,7 @@ public class TipoSeguroDAO {
         st.setInt(1, tipoSeguro.getId());
         st.setString(2, tipoSeguro.getNome());
         st.setString(3, tipoSeguro.getDescricao());
-        st.setDouble(4, tipoSeguro.getTaxa().doubleValue());
+        st.setBigDecimal(4, tipoSeguro.getTaxa());
 
         st.executeUpdate();
 
@@ -104,13 +104,14 @@ public class TipoSeguroDAO {
     }
 
     public void update(TipoSeguro tipoSeguro) throws SQLException {
-        String sql = "UPDATE tipos_seguro SET id_seguro = ?, nome = ?, descricao = ?, taxa = ?";
+        String sql = "UPDATE tipos_seguro SET nome = ?, descricao = ?, taxa = ? WHERE id_seguro = ?";
         PreparedStatement st = database.getConnection().prepareStatement(sql);
 
-        st.setInt(1, tipoSeguro.getId());
-        st.setString(2, tipoSeguro.getNome());
-        st.setString(3, tipoSeguro.getDescricao());
-        st.setDouble(4, tipoSeguro.getTaxa().doubleValue());
+        
+        st.setString(1, tipoSeguro.getNome());
+        st.setString(2, tipoSeguro.getDescricao());
+        st.setBigDecimal(3, tipoSeguro.getTaxa());
+        st.setInt(4, tipoSeguro.getId());
 
         int linhasAfetadas = st.executeUpdate();
 

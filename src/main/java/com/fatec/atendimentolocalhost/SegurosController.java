@@ -13,7 +13,10 @@ import com.fatec.atendimentolocalhost.util.Constraints;
 import com.fatec.atendimentolocalhost.util.Verificar;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -22,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -39,6 +43,9 @@ public class SegurosController implements Initializable {
     
     @FXML
     private Label lblNome, lblTaxa, lblDescricao;
+    
+    @FXML
+    private ButtonBar btnBar;
     
     @FXML
     private Button btnAtualizar;
@@ -83,15 +90,49 @@ public class SegurosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        txtTaxa.setText(String.valueOf(0.00));
         preencherTabela();
         preencherCampos();
-        inicializarConstraints();
     }
     
     @FXML
     private void btnCadastrarClick(){
+        esconderLabels();
         
+        if(btnCadastrar.getText().equals("CADASTRAR")){
+            
+            cadastrarSeguro();
+        }
+        else{
+            atualizarSeguro();
+        }
+    }
+    
+    private void atualizarSeguro(){
         TipoSeguro seguro = criarSeguro();
+        seguro.setId(Integer.valueOf(txtId.getText()));
+        if(!Verificar.todosAtributosPreenchidos(seguro)) {
+            Alerts.mostrarAlerta("ERRO", null, "Para continuar, preencha todos os campos corretamente.", Alert.AlertType.ERROR);
+        }
+        else{
+            Optional<ButtonType> resposta = Alerts.pedirConfirmacao("CONFIRMAÇÃO", "Desejar atualizar este seguro?");
+            if(resposta.get() == ButtonType.OK){
+                service = new TipoSeguroService();
+            }
+            try{
+                service.atualizarSeguro(seguro);
+                Alerts.mostrarAlerta("SUCESSO", null, "Seguro cadastrado com sucesso.", Alert.AlertType.INFORMATION);
+            }
+            catch(DBException e){
+                System.out.println(e.getMessage());
+            }
+            
+        }
+    }
+    
+    private void cadastrarSeguro(){
+        TipoSeguro seguro = criarSeguro();
+        
         if(!Verificar.todosAtributosPreenchidos(seguro, "getId")) {
             Alerts.mostrarAlerta("ERRO", null, "Para continuar, preencha todos os campos corretamente.", Alert.AlertType.ERROR);
         }
@@ -102,20 +143,18 @@ public class SegurosController implements Initializable {
             }
             try{
                 service.cadastrarSeguro(seguro);
+                Alerts.mostrarAlerta("SUCESSO", null, "Seguro cadastrado com sucesso.", Alert.AlertType.INFORMATION);
             }
             catch(DBException e){
                 System.out.println(e.getMessage());
             }
-            
         }
     }
     
     private TipoSeguro criarSeguro() {
-        esconderLabels();
-        
         TipoSeguro seguro = new TipoSeguro();
         try{
-            if(txtNomeSeguro.getText().length() < 5) throw new TipoSeguroValidacaoException("O nome do Seguro deve ter ao menos 5 caracteres");
+            if(txtNomeSeguro.getText() == null || txtNomeSeguro.getText().length() < 5) throw new TipoSeguroValidacaoException("O nome do Seguro deve ter ao menos 5 caracteres");
             seguro.setNome(txtNomeSeguro.getText());
         }
         catch(TipoSeguroValidacaoException e){
@@ -124,7 +163,7 @@ public class SegurosController implements Initializable {
         }
         
         try{
-           if(txtDescricao.getText().length() < 10) throw new TipoSeguroValidacaoException("Por favor, descreva o seguro com mais detalhes");
+           if(txtDescricao.getText() == null || txtDescricao.getText().length() < 10) throw new TipoSeguroValidacaoException("Por favor, descreva o seguro com mais detalhes");
            seguro.setDescricao(txtDescricao.getText());
         }
         catch(TipoSeguroValidacaoException e){
@@ -133,13 +172,15 @@ public class SegurosController implements Initializable {
         }
         
         try{
-            seguro.setTaxa(new BigDecimal(txtTaxa.getText()));
+            if(txtTaxa.getText() == null) throw new TipoSeguroValidacaoException("Por favor, descreva o seguro com mais detalhes");
+            String taxa = txtTaxa.getText().substring(3);
+            taxa = taxa.replace(',','.');
+            seguro.setTaxa(new BigDecimal(taxa));
         }
         catch(TipoSeguroValidacaoException e){
             lblTaxa.setText(e.getMessage());
             lblTaxa.setVisible(true);
         }
-        
         return seguro;
         
     }
@@ -152,6 +193,7 @@ public class SegurosController implements Initializable {
     
     @FXML 
     public void preencherCampos() {
+        NumberFormat moedaBR = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         tabelaSeguros.setRowFactory(t -> {
             TableRow<TipoSeguro> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -160,7 +202,8 @@ public class SegurosController implements Initializable {
                     txtId.setText(String.valueOf(seguro.getId()));
                     txtNomeSeguro.setText(seguro.getNome());
                     txtDescricao.setText(seguro.getDescricao());
-                    txtTaxa.setText(seguro.getTaxa().toString());
+                    txtTaxa.setText(moedaBR.format(seguro.getTaxa()));
+                    visibleEdicao();
                 }
             });
             return row;
@@ -189,17 +232,26 @@ public class SegurosController implements Initializable {
     @FXML
     private void btnNovoSeguroClick() {
         limparCampos();
+        visibleCriacao();
     }
     
-     @FXML
+    private void visibleCriacao(){
+        btnCadastrar.setText("CADASTRAR");
+        btnNovoSeguro.setVisible(false);
+        txtId.setVisible(false);
+    }
+    
+    private void visibleEdicao(){
+        txtId.setVisible(true);
+        btnCadastrar.setText("ATUALIZAR");
+        btnNovoSeguro.setVisible(true);
+    }
+    
+    @FXML
     private void limparCampos() {
         txtId.setText(null);
         txtNomeSeguro.setText(null);
         txtDescricao.setText(null);
         txtTaxa.setText(null);
-    }
-    
-    private void inicializarConstraints() {
-        Constraints.setTextFieldInteger(txtTaxa);
     }
 }

@@ -57,34 +57,38 @@
                <rowConstraints>
                   <RowConstraints />
                   <RowConstraints />
+                  <RowConstraints />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField fx:id="txtNomeSeguro" prefWidth="266.0" promptText="Nome do Seguro" GridPane.rowIndex="2" />
-                  <TextField fx:id="txtTaxa" promptText="Taxa" GridPane.rowIndex="4" />
+                  <TextField fx:id="txtNomeSeguro" prefWidth="266.0" promptText="Nome do Seguro" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtTaxa" promptText="Taxa" GridPane.rowIndex="5" />
                   <TextField fx:id="txtId" editable="false" prefWidth="193.0" visible="false" GridPane.rowIndex="2" />
-                  <Label fx:id="lblNome" text="Label" textFill="#f50505" visible="false" GridPane.rowIndex="3" />
-                  <Label fx:id="lblTaxa" layoutX="10.0" layoutY="10.0" text="Label" textFill="#f50505" visible="false" GridPane.rowIndex="5" />
-                  <Label fx:id="lblDescricao" text="Label" textFill="#f50505" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Label fx:id="lblNome" text="Label" textFill="#f50505" visible="false" GridPane.rowIndex="4" />
+                  <Label fx:id="lblTaxa" layoutX="10.0" layoutY="10.0" text="Label" textFill="#f50505" visible="false" GridPane.rowIndex="6" />
+               </children>
+            </GridPane>
+            <VBox prefHeight="155.0" prefWidth="664.0">
+               <children>
+                  <TextArea fx:id="txtDescricao" prefHeight="115.0" prefWidth="523.0" promptText="Descrição..." />
+                  <Label fx:id="lblDescricao" text="Label" textFill="#f50505" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>
-            </GridPane>
-            <TextArea fx:id="txtDescricao" prefHeight="115.0" prefWidth="523.0" promptText="Descrição..." />
+            </VBox>
          </children>
          <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
          </padding>
       </HBox>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar fx:id="btnBar" prefHeight="40.0" prefWidth="200.0">
          <buttons>
             <Button fx:id="btnNovoSeguro" mnemonicParsing="false" onAction="#btnNovoSeguroClick" text="NOVO SEGURO" visible="false" />
-            <Button fx:id="btnAtualizar" mnemonicParsing="false" text="ATUALIZAR" visible="false" />
             <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#btnCadastrarClick" text="CADASTRAR">
                <font>
                   <Font size="13.0" />

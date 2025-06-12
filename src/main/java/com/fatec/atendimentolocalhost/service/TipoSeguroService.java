@@ -46,4 +46,18 @@ public class TipoSeguroService {
             throw new DBException("Erro ao criar novo seguro");       
         }
     }
+    
+    public void atualizarSeguro(TipoSeguro seguro) throws DBException {
+        try {
+            if(!Verificar.todosAtributosPreenchidos(seguro)){
+                throw new CampoVazioException("Atenção. Preencha todos os dados necessários");
+            } 
+            database = new Database();
+            TipoSeguroDAO seguroDAO = new TipoSeguroDAO(database);
+            seguroDAO.update(seguro);
+        }
+        catch(SQLException e){
+            throw new DBException("Erro ao atualizar seguro: " + e.getMessage());       
+        }
+    }
 }

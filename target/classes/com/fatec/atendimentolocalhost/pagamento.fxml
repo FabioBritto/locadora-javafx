@@ -156,7 +156,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="64.0" prefWidth="511.0">
+      <HBox alignment="CENTER" prefHeight="64.0" prefWidth="718.0">
          <VBox.margin>
             <Insets left="30.0" top="20.0" />
          </VBox.margin>
@@ -178,6 +178,17 @@
                <font>
                   <Font name="Calibri Bold" size="15.0" />
                </font>
+               <HBox.margin>
+                  <Insets left="15.0" right="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnConfirmarEdicao" disable="true" mnemonicParsing="false" prefHeight="54.0" prefWidth="127.0" text="Confirmar Edição">
+               <font>
+                  <Font name="Calibri Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </HBox>
