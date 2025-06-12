@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost.model.entities;
 
+import com.fatec.atendimentolocalhost.model.enums.SituacaoVeiculo;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ public class Veiculo {
     private BigDecimal precoBase;
     
     private CategoriaVeiculo categoria;
+    private SituacaoVeiculo situcao;
     
     public Veiculo(){
         
@@ -92,6 +94,14 @@ public class Veiculo {
 
     public void setCategoria(CategoriaVeiculo categoria) {
         this.categoria = categoria;
+    }
+
+    public SituacaoVeiculo getSitucao() {
+        return situcao;
+    }
+
+    public void setSitucao(SituacaoVeiculo situcao) {
+        this.situcao = situcao;
     }
 
     @Override

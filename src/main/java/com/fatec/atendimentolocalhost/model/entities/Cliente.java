@@ -137,18 +137,18 @@ public class Cliente {
     }
 
     public String getNome() {
-        return nome;
+        return nome == null ? "" : nome;
     }
 
     public void setNome(String nome) {
-        if(nome.length() < 5){
+        if(nome.length() < 3){
             throw new ClienteValidacaoException("O nome deve ter ao menos 5 caracteres");
         }
         this.nome = nome.replace(" ", "");
     }
 
     public String getEmail() {
-        return email;
+        return email == null ? "" : email;
     }
     
     /**
@@ -165,7 +165,7 @@ public class Cliente {
     }
 
     public String getCep() {
-        return cep;
+        return cep == null ? "" : cep;
     }
 
     /**
@@ -182,7 +182,7 @@ public class Cliente {
     }
 
     public String getRua() {
-        return rua;
+        return rua == null ? "" : rua;
     }
 
     public void setRua(String rua) {
@@ -190,7 +190,7 @@ public class Cliente {
     }
 
     public String getNumero() {
-        return numero;
+        return numero == null ? "" : numero;
     }
 
     public void setNumero(String numero) {
@@ -198,7 +198,7 @@ public class Cliente {
     }
 
     public String getComplemento() {
-        return complemento;
+        return complemento == null ? "" : complemento;
     }
 
     public void setComplemento(String complemento) {
@@ -206,7 +206,7 @@ public class Cliente {
     }
 
     public String getBairro() {
-        return bairro;
+        return bairro == null ? "" : bairro;
     }
 
     public void setBairro(String bairro) {
@@ -214,7 +214,7 @@ public class Cliente {
     }
 
     public String getCidade() {
-        return cidade;
+        return cidade == null ? "" : cidade;
     }
 
     public void setCidade(String cidade) {
@@ -222,7 +222,7 @@ public class Cliente {
     }
 
     public String getEstado() {
-        return estado;
+        return estado == null ? "" : estado;
     }
 
     public void setEstado(String estado) {
@@ -248,7 +248,7 @@ public class Cliente {
     }
 
     public String getTelefone() {
-        return telefone;
+        return telefone == null ? "" : telefone;
     }
 
     /**
@@ -258,7 +258,7 @@ public class Cliente {
      * @throws ClienteValidacaoException 
      */
     public void setTelefone(String telefone) throws ClienteValidacaoException {
-        if(telefone.length() != 16){
+        if(telefone.length() > 16){
             throw new ClienteValidacaoException("Número de telefone inválido");
         }
         this.telefone = telefone;

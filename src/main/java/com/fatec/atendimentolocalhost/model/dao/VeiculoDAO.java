@@ -5,9 +5,9 @@
 package com.fatec.atendimentolocalhost.model.dao;
 
 import com.fatec.atendimentolocalhost.database.Database;
-import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.CategoriaVeiculo;
 import com.fatec.atendimentolocalhost.model.entities.Veiculo;
+import com.fatec.atendimentolocalhost.model.enums.SituacaoVeiculo;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,6 +45,18 @@ public class VeiculoDAO {
             veiculo.setQuilometragem(rs.getInt("quilometragem"));
             veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
             CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
+            int situacao = rs.getInt("situacao");
+            switch (situacao) {
+                case 1:
+                    veiculo.setSitucao(SituacaoVeiculo.DISPONÍVEL);
+                    break;
+                case 2:
+                    veiculo.setSitucao(SituacaoVeiculo.ALUGADO);
+                    break;
+                default:
+                    veiculo.setSitucao(SituacaoVeiculo.EM_MANUTENÇÃO);
+                    break;
+            }
             Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
             veiculo.setCategoria(categoria.get());
             veiculos.add(veiculo);
@@ -71,6 +83,19 @@ public class VeiculoDAO {
             veiculo.setModelo(rs.getString("modelo"));
             veiculo.setQuilometragem(rs.getInt("quilometragem"));
             veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            
+            int situacao = rs.getInt("situacao");
+            switch (situacao) {
+                case 1:
+                    veiculo.setSitucao(SituacaoVeiculo.DISPONÍVEL);
+                    break;
+                case 2:
+                    veiculo.setSitucao(SituacaoVeiculo.ALUGADO);
+                    break;
+                default:
+                    veiculo.setSitucao(SituacaoVeiculo.EM_MANUTENÇÃO);
+                    break;
+            }
             CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
             Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
             veiculo.setCategoria(categoria.get());
@@ -97,6 +122,18 @@ public class VeiculoDAO {
             veiculo.setModelo(rs.getString("modelo"));
             veiculo.setQuilometragem(rs.getInt("quilometragem"));
             veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            int situacao = rs.getInt("situacao");
+            switch (situacao) {
+                case 1:
+                    veiculo.setSitucao(SituacaoVeiculo.DISPONÍVEL);
+                    break;
+                case 2:
+                    veiculo.setSitucao(SituacaoVeiculo.ALUGADO);
+                    break;
+                default:
+                    veiculo.setSitucao(SituacaoVeiculo.EM_MANUTENÇÃO);
+                    break;
+            }
             CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
             Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
             veiculo.setCategoria(categoria.get());
@@ -123,6 +160,18 @@ public class VeiculoDAO {
             veiculo.setModelo(rs.getString("modelo"));
             veiculo.setQuilometragem(rs.getInt("quilometragem"));
             veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
+            int situacao = rs.getInt("situacao");
+            switch (situacao) {
+                case 1:
+                    veiculo.setSitucao(SituacaoVeiculo.DISPONÍVEL);
+                    break;
+                case 2:
+                    veiculo.setSitucao(SituacaoVeiculo.ALUGADO);
+                    break;
+                default:
+                    veiculo.setSitucao(SituacaoVeiculo.EM_MANUTENÇÃO);
+                    break;
+            }
             /*
                 Neste caso, eu aproveito o objeto categoria para economizar consultas ao banco
              */
@@ -152,6 +201,18 @@ public class VeiculoDAO {
             veiculo.setQuilometragem(rs.getInt("quilometragem"));
             veiculo.setPrecoBase(BigDecimal.valueOf(rs.getDouble("preco_base")));
             CategoriaVeiculoDAO categoriaDAO = new CategoriaVeiculoDAO(database);
+            int situacao = rs.getInt("situacao");
+            switch (situacao) {
+                case 1:
+                    veiculo.setSitucao(SituacaoVeiculo.DISPONÍVEL);
+                    break;
+                case 2:
+                    veiculo.setSitucao(SituacaoVeiculo.ALUGADO);
+                    break;
+                default:
+                    veiculo.setSitucao(SituacaoVeiculo.EM_MANUTENÇÃO);
+                    break;
+            }
             Optional<CategoriaVeiculo> categoria = categoriaDAO.findById(rs.getInt("id_categoria"));
             veiculo.setCategoria(categoria.get());
         }

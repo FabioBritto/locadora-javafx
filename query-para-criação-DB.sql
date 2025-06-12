@@ -35,7 +35,7 @@ CREATE TABLE clientes (
 	id_cliente INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
     cpf CHAR(11) UNIQUE NOT NULL,
     nome  VARCHAR(80) NOT NULL, 
-    email VARCHAR(80) UNIQUE NOT NULL,
+    email VARCHAR(80) NOT NULL,
     cep VARCHAR(8) NOT NULL,
     rua VARCHAR(80) NOT NULL, 
     numero VARCHAR(10) NOT NULL,
@@ -53,13 +53,14 @@ CREATE TABLE veiculos (
     marca VARCHAR(30) NOT NULL, 
     cor VARCHAR(30) NOT NULL, 
     ano INT NOT NULL, 
-    chassi VARCHAR(17) UNIQUE NOT NULL, 
+    chassi VARCHAR(30) UNIQUE NOT NULL, 
     modelo VARCHAR(30) NOT NULL, 
     quilometragem INT NOT NULL, 
     id_categoria INT, 
     preco_base DECIMAL(10,2) NOT NULL, 
+    situacao INT DEFAULT 1,
     CONSTRAINT fk_veiculo_categoria FOREIGN KEY(id_categoria) REFERENCES categorias_veiculos(id_categoria)
-    ON DELETE CASCADE
+    ON DELETE SET NULL
     ON UPDATE CASCADE
 );
 
