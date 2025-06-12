@@ -4,6 +4,7 @@
  */
 package com.fatec.atendimentolocalhost;
 
+import com.fatec.atendimentolocalhost.exceptions.ClienteValidacaoException;
 import com.fatec.atendimentolocalhost.exceptions.DBException;
 import com.fatec.atendimentolocalhost.model.entities.Cliente;
 import com.fatec.atendimentolocalhost.service.ClienteService;
@@ -24,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -61,7 +63,7 @@ public class PagamentoController implements Initializable {
     @FXML
     private TextField txtCpf;
     @FXML
-    private TextField txtDataNascimento;
+    private DatePicker pkDataNascimento;
     @FXML
     private TextField txtCidade;
     @FXML
@@ -93,6 +95,12 @@ public class PagamentoController implements Initializable {
     @FXML
     private Button btnFinalizar;
     @FXML
+    private Button btnEditar;
+
+    @FXML
+    private Button btnLimparCampos;
+
+    @FXML
     private Button btnBuscar;
 
     private ClienteService clienteService = new ClienteService();
@@ -106,9 +114,10 @@ public class PagamentoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         preencherCampos();
         configurarBotoes();
-        if(PedidoHolder.getInstance().getPedido().getCliente() != null){
+        if (PedidoHolder.getInstance().getPedido().getCliente() != null) {
             preencherCamposCliente();
         }
+
     }
 
     public void configurarBotoes() {
@@ -131,10 +140,14 @@ public class PagamentoController implements Initializable {
                     PedidoHolder.getInstance().getPedido().setCliente(cliente);
                     clienteEncontradoNaBusca = Boolean.TRUE;
                     preencherCamposCliente();
+                    desabilitarCamposCliente();
+                    txtCpf.setDisable(true);
+                    btnBuscar.setDisable(true);
                 } else {
                     Alert alert = new Alert(AlertType.WARNING);
                     alert.setHeaderText("Cliente não encontrado!");
                     alert.showAndWait();
+                    btnEditar.setDisable(true);
                 }
             } catch (DBException error) {
                 Alert alert = new Alert(AlertType.WARNING);
@@ -142,6 +155,62 @@ public class PagamentoController implements Initializable {
                 alert.showAndWait();
             }
 
+        });
+
+        btnEditar.setOnAction(e -> {
+            if (btnEditar.getText().equals("Editar")) {
+                habilitarCamposCliente();
+                btnEditar.setText("Cancelar Edição");
+                txtCpf.setDisable(true);
+                btnBuscar.setDisable(true);
+                pkDataNascimento.setDisable(true);
+            } else {
+                btnEditar.setText("Editar");
+                desabilitarCamposCliente();
+                preencherCamposCliente();
+            }
+        });
+        btnLimparCampos.setOnAction(e -> {
+            limparCamposCliente();
+            habilitarCamposCliente();
+            btnBuscar.setDisable(false);
+            txtCpf.setDisable(false);
+            txtCpf.setText("");
+            pkDataNascimento.setDisable(false);
+            btnEditar.setDisable(true);
+            btnEditar.setText("Editar");
+        });
+
+        btnFinalizar.setOnAction(e -> {
+            if (!todosCamposPreenchidos()) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setHeaderText("Faltam dados do cliente!");
+                alert.showAndWait();
+            } else {
+                try {
+                    Cliente cliente = new Cliente();
+                    cliente.setAtivo(Boolean.TRUE);
+                    cliente.setBairro(txtBairro.getText());
+                    cliente.setCep(txtCep.getText());
+                    cliente.setCidade(txtCidade.getText());
+                    cliente.setComplemento(txtComplemento.getText());
+                    cliente.setCpf(txtCep.getText());
+                    cliente.setDataNascimento(pkDataNascimento.getValue());
+                    cliente.setEmail(txtEmail.getText());
+                    cliente.setEstado(txtEstado.getText());
+                    cliente.setNome(txtNome.getText());
+                    cliente.setNumero(txtNumero.getText());
+                    cliente.setRua(txtRua.getText());
+                    cliente.setTelefone(txtTelefone.getText());
+                    
+                    
+                    
+                } catch (ClienteValidacaoException clErro) {
+                    Alert alert = new Alert(AlertType.WARNING);
+                    alert.setHeaderText("Dados do cliente inválidos, verifique\nCPF,NOME, EMAIL, TELEFONE, CEP E DATA DE NASCIMENTO!");
+                    alert.showAndWait();
+                }
+            }
         });
     }
 
@@ -177,9 +246,9 @@ public class PagamentoController implements Initializable {
     public void preencherCamposCliente() {
         txtCpf.setText(PedidoHolder.getInstance().getPedido().getCliente().getCpf());
         if (PedidoHolder.getInstance().getPedido().getCliente().getDataNascimento() != null) {
-            txtDataNascimento.setText(PedidoHolder.getInstance().getPedido().getCliente().getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            pkDataNascimento.setValue(PedidoHolder.getInstance().getPedido().getCliente().getDataNascimento());
         } else {
-            txtDataNascimento.setText("");
+            pkDataNascimento.setValue(null);
         }
         txtCidade.setText(PedidoHolder.getInstance().getPedido().getCliente().getCidade());
         txtNome.setText(PedidoHolder.getInstance().getPedido().getCliente().getNome());
@@ -191,6 +260,7 @@ public class PagamentoController implements Initializable {
         txtTelefone.setText(PedidoHolder.getInstance().getPedido().getCliente().getTelefone());
         txtBairro.setText(PedidoHolder.getInstance().getPedido().getCliente().getBairro());
         txtNumero.setText(PedidoHolder.getInstance().getPedido().getCliente().getNumero());
+        desabilitarCamposCliente();
     }
 
     public BigDecimal calcularValorTotalVeiculo(BigDecimal valorBaseVeiculo, LocalDate dataDevolução) {
@@ -209,6 +279,66 @@ public class PagamentoController implements Initializable {
         BigDecimal total = valorTaxaSeguro.multiply(new BigDecimal(dias));
 
         return total;
+    }
+
+    public void habilitarCamposCliente() {
+        pkDataNascimento.setDisable(false);
+        txtCidade.setDisable(false);
+        txtNome.setDisable(false);
+        txtCep.setDisable(false);
+        txtEstado.setDisable(false);
+        txtEmail.setDisable(false);
+        txtRua.setDisable(false);
+        txtComplemento.setDisable(false);
+        txtTelefone.setDisable(false);
+        txtBairro.setDisable(false);
+        txtNumero.setDisable(false);
+
+    }
+
+    public void desabilitarCamposCliente() {
+        pkDataNascimento.setDisable(true);
+        txtCidade.setDisable(true);
+        txtNome.setDisable(true);
+        txtCep.setDisable(true);
+        txtEstado.setDisable(true);
+        txtEmail.setDisable(true);
+        txtRua.setDisable(true);
+        txtComplemento.setDisable(true);
+        txtTelefone.setDisable(true);
+        txtBairro.setDisable(true);
+        txtNumero.setDisable(true);
+        btnEditar.setDisable(false);
+
+    }
+
+    public void limparCamposCliente() {
+        pkDataNascimento.setValue(null);
+        txtCidade.setText("");
+        txtNome.setText("");
+        txtCep.setText("");
+        txtEstado.setText("");
+        txtEmail.setText("");
+        txtRua.setText("");
+        txtComplemento.setText("");
+        txtTelefone.setText("");
+        txtBairro.setText("");
+        txtNumero.setText("");
+
+    }
+
+    private boolean todosCamposPreenchidos() {
+        return pkDataNascimento.getValue() != null
+                && !txtCidade.getText().trim().isEmpty()
+                && !txtNome.getText().trim().isEmpty()
+                && !txtCep.getText().trim().isEmpty()
+                && !txtEstado.getText().trim().isEmpty()
+                && !txtEmail.getText().trim().isEmpty()
+                && !txtRua.getText().trim().isEmpty()
+                && !txtTelefone.getText().trim().isEmpty()
+                && !txtBairro.getText().trim().isEmpty()
+                && !txtNumero.getText().trim().isEmpty()
+                && !txtCpf.getText().trim().isEmpty();
     }
 
 }

@@ -141,7 +141,7 @@ public class Cliente {
     }
 
     public void setNome(String nome) {
-        if(nome.length() < 5){
+        if(nome.length() < 3){
             throw new ClienteValidacaoException("O nome deve ter ao menos 5 caracteres");
         }
         this.nome = nome.replace(" ", "");
@@ -190,7 +190,7 @@ public class Cliente {
     }
 
     public String getNumero() {
-        return numero == null ? "" : nome;
+        return numero == null ? "" : numero;
     }
 
     public void setNumero(String numero) {
